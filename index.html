@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Nature Base Sound</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,'SF Pro Display','Helvetica Neue',sans-serif;background:#f2f4f7;color:#1a1a1a;padding-bottom:calc(env(safe-area-inset-bottom,16px)+16px);-webkit-font-smoothing:antialiased}
+.hd{background:linear-gradient(135deg,#1B3A4B,#2E86C1);padding:16px 18px 14px;padding-top:calc(env(safe-area-inset-top,16px)+12px);display:flex;justify-content:space-between;align-items:center}
+.hd h1{font-size:17px;font-weight:700;color:#fff}.hd-r{font-size:10px;color:#85C1E9}
+.ct{padding:14px;max-width:600px;margin:0 auto}
+
+/* Tabs */
+.tabs{display:flex;background:#fff;border-radius:12px;padding:3px;margin-bottom:14px;box-shadow:0 1px 4px #0001}
+.tab{flex:1;padding:9px 0;text-align:center;font-size:12px;font-weight:600;color:#888;border-radius:10px;cursor:pointer;transition:all .15s;-webkit-user-select:none}
+.tab.a{background:#1B3A4B;color:#fff;box-shadow:0 2px 8px #1B3A4B33}
+
+/* Section */
+.sec{margin-bottom:14px}
+.sec-head{display:flex;align-items:center;gap:5px;margin-bottom:8px;padding:0 2px}
+.sec-num{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff}
+.sec-label{font-size:12px;font-weight:700;letter-spacing:.3px}
+.sec-hint{font-size:9px;color:#999;margin-left:auto}
+.cat-label{font-size:9px;font-weight:700;letter-spacing:.4px;padding:3px 8px;margin:6px 0 4px;border-radius:4px;display:inline-block}
+
+/* Buttons */
+.bg{display:grid;gap:5px}
+.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr 1fr}.g4{grid-template-columns:1fr 1fr 1fr 1fr}
+.btn{padding:12px 6px;border-radius:12px;border:2px solid #e2e5ea;cursor:pointer;font-size:13px;font-weight:500;font-family:inherit;background:#fff;color:#555;transition:all .12s;text-align:center;display:flex;flex-direction:column;align-items:center;gap:2px;-webkit-user-select:none;box-shadow:0 1px 3px #0001}
+.btn:active{transform:scale(.96)}
+.btn .bi{font-size:20px;line-height:1}.btn .bt{font-size:10px;font-weight:600}
+.btn.a{color:#fff;border-color:transparent;font-weight:700;box-shadow:0 3px 12px #0002}
+.btn.d{opacity:.25;cursor:default;background:#f5f5f5;border-color:#eee}.btn.d:active{transform:none}.btn.d .bt{text-decoration:line-through}
+
+/* Cards */
+.card{background:#fff;border-radius:14px;overflow:hidden;margin-bottom:12px;box-shadow:0 1px 6px #0001}
+.card-head{padding:12px 16px;font-size:14px;font-weight:700;border-bottom:1px solid #f0f0f0;display:flex;justify-content:space-between;align-items:center}
+.card-head span{font-size:10px;color:#999;font-weight:400}
+
+.fname-bar{background:linear-gradient(135deg,#e8f0f8,#dce8f4);border:1px solid #b8cce0;border-radius:14px;padding:14px 16px;margin-bottom:12px;text-align:center}
+.fname-label{font-size:9px;color:#2E86C1;font-weight:700;letter-spacing:1px;margin-bottom:4px}
+.fname-text{font-size:14px;color:#1B3A4B;font-family:'Menlo','Courier New',monospace;font-weight:600;word-break:break-all}
+.copy-btn{display:inline-block;margin-top:8px;padding:7px 20px;border-radius:8px;border:1.5px solid #2E86C1;background:#fff;color:#2E86C1;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
+.copy-btn:active{background:#2E86C1;color:#fff}
+
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
+.tag{font-size:11px;padding:4px 10px;border-radius:6px;font-weight:600;border:1px solid}
+
+.warn{background:#FEF0F0;border:1.5px solid #E74C3C;border-radius:12px;padding:12px 14px;margin-bottom:12px;font-size:13px;color:#C0392B;line-height:1.5}
+
+/* Layer rows */
+.layer{display:flex;gap:10px;align-items:flex-start;padding:12px 16px;border-bottom:1px solid #f5f5f5}
+.layer:last-child{border-bottom:none}
+.layer-tag{flex-shrink:0;font-size:9px;font-weight:700;padding:3px 8px;border-radius:6px;margin-top:1px}
+.layer-c{flex:1}
+.layer-eq{font-size:13px;color:#333;font-weight:500;margin-bottom:2px}
+.layer-rv{font-size:12px;color:#888}
+
+.chain{padding:14px 16px;background:#f8f9fb;border-top:1px solid #eee}
+.chain-t{font-size:11px;font-weight:700;color:#1B3A4B;margin-bottom:8px}
+.chain-r{font-size:10.5px;color:#666;line-height:1.7;margin-bottom:3px}.chain-l{font-weight:700;display:inline-block;width:36px}
+
+/* List items */
+.li{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid #f5f5f5;cursor:pointer;-webkit-user-select:none}
+.li:active{background:#f5f7fa}.li.a{background:#EBF5FB}.li:last-child{border-bottom:none}
+.li-n{font-size:14px;color:#555}.li-n.a{font-weight:700;color:#1B3A4B}
+.li-b{font-size:9px;color:#2ecc71;margin-left:5px;font-weight:600}
+.li-cat{font-size:8px;padding:2px 6px;border-radius:4px;margin-left:5px;font-weight:600}
+.li-c{font-family:'Menlo',monospace;font-size:9px;color:#bbb}
+
+.logic{padding:10px 16px;border-bottom:1px solid #f5f5f5;font-size:10.5px;display:flex;gap:6px;align-items:flex-start}
+.logic-s{min-width:90px;font-weight:600}.logic-r{color:#777;line-height:1.5}
+
+
+
+/* Source list (v5) */
+.sr-int{background:linear-gradient(135deg,#1B3A4B,#2E86C1);border-radius:14px;padding:13px 15px;margin-bottom:12px;color:#fff}
+.sr-int h3{font-size:13px;font-weight:800;margin-bottom:7px}
+.sr-int p{font-size:10.5px;line-height:1.7;color:#D6EAF8}
+.sr-int b{color:#fff;font-weight:800}
+.sr-row{padding:11px 13px;border-bottom:1px solid #f2f2f2;display:flex;gap:10px;align-items:flex-start}
+.sr-row:last-child{border-bottom:none}
+.sr-i{font-size:22px;line-height:1.2;width:26px;text-align:center;flex:none}
+.sr-b{flex:1;min-width:0}
+.sr-h{display:flex;align-items:center;gap:5px;margin-bottom:3px;flex-wrap:wrap}
+.sr-n{font-size:13.5px;font-weight:700;color:#1a1a1a}
+.sr-tag{font-size:8px;font-weight:800;padding:2px 5px;border-radius:4px}
+.sr-m{font-size:9.5px;color:#8a9098;font-family:ui-monospace,'SF Mono',monospace;margin-bottom:3px}
+.sr-m b{color:#1B3A4B;font-weight:700}
+.sr-r{font-size:10.5px;color:#4a5259;line-height:1.6}
+.sr-no{width:20px;flex:none;font-size:9px;font-weight:800;color:#c3c9cf;padding-top:4px;text-align:right;font-family:ui-monospace,monospace}
+/* Matrix (v4) */
+.mx-bar{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px;align-items:center}
+.mx-seg{display:flex;background:#fff;border-radius:9px;padding:2px;box-shadow:0 1px 4px #0001}
+.mx-seg div{padding:6px 11px;font-size:11px;font-weight:600;color:#888;border-radius:7px;cursor:pointer}
+.mx-seg div.a{background:#16A085;color:#fff}
+.mx-chip{padding:5px 9px;border-radius:7px;font-size:10px;font-weight:600;background:#fff;color:#888;cursor:pointer;border:1px solid #e2e5ea;box-shadow:0 1px 3px #0001}
+.mx-chip.a{background:#1B3A4B;color:#fff;border-color:#1B3A4B}
+.mx-sort{width:100%;padding:8px 10px;border-radius:9px;border:1px solid #e2e5ea;font-size:11px;font-weight:600;font-family:inherit;background:#fff;color:#444}
+.mx-row{padding:10px 13px;border-bottom:1px solid #f2f2f2}
+.mx-row:last-child{border-bottom:none}
+.mx-t{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.mx-n{font-size:13px;font-weight:700;color:#1a1a1a}
+.mx-k{font-size:8px;font-weight:800;padding:2px 5px;border-radius:4px;letter-spacing:.3px}
+.mx-sc{margin-left:auto;font-size:11px;font-weight:800}
+.mx-ph{font-size:9.5px;color:#7a8288;font-family:ui-monospace,'SF Mono',monospace;line-height:1.7;margin-bottom:7px}
+.mx-ph b{color:#1B3A4B;font-weight:700}
+.mx-g{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+.mx-g.r2{grid-template-columns:repeat(2,1fr);margin-top:4px}
+.mx-c{text-align:center}
+.mx-cl{font-size:8px;color:#999;font-weight:600;margin-bottom:2px;display:block}
+.mx-cv{font-size:10px;font-weight:800;color:#fff;border-radius:4px;padding:3px 0}
+.mx-hint{font-size:9px;color:#999;padding:0 2px 8px;line-height:1.6}
+.fo{text-align:center;padding:14px;font-size:10px;color:#bbb}
+
+@media(min-width:700px){.ct{max-width:680px;padding:20px}}
+</style>
+</head>
+<body>
+<div class="hd"><h1>🎛️ Nature Base Sound</h1><div class="hd-r">Sound Oasis</div></div>
+<div class="ct">
+<div class="tabs" id="tabs"></div>
+<div id="app"></div>
+</div>
+<script>
+const D={
+precip:{DRY:{i:"☀️",n:"건조/맑음",mx:"HS +1.5dB @8k",eq:"High-Shelf↑ · 투명한 공기감",rv:"Short · High Diffusion"},CLD:{i:"☁️",n:"흐림",mx:"LPF 7.5k -12dB/oct",eq:"High-Cut 7~8kHz · 답답한 느낌",rv:"Medium · Dark Tone"},LIGHT:{i:"🌦️",n:"가랑비",mx:"+1dB @6k Q1.0",eq:"High-Mid · 섬세한 빗방울 입자",rv:"Light Wet · 미세한 질감"},RAIN:{i:"🌧️",n:"비",mx:"HPF 60 · +1.5dB @2k",eq:"Low-Cut + 1~3kHz↑ · 축축함",rv:"High Wet · 축축한 질감"},HEAVY:{i:"⛈️",n:"폭우",mx:"+2dB @100 · LPF 5k",eq:"Low↑ + High-Cut · 뭉개짐",rv:"Very Long Decay · Irregular ER"}},
+temp:{COLD:{i:"❄️",n:"추움",mx:"+1.5dB @6k Q1.2",eq:"5kHz↑ · 시린 느낌",rv:"Very Short · Cold Bright"},COOL:{i:"🍃",n:"시원",mx:"+1dB @3k Q1.0",eq:"Balanced · 중고역↑",rv:"Medium Room · Clean"},WARM:{i:"🌸",n:"따뜻",mx:"+1.5dB @300 Q0.9",eq:"Low-Mid↑ · 온기",rv:"Soft Plate · Warm Tail"},HOT:{i:"🔥",n:"더움",mx:"LPF 5k -6dB/oct",eq:"High-Cut 5kHz↓ · 습함",rv:"Long · Low Damping"}},
+time:{DWN:{i:"🌄",n:"새벽",mx:"+2dB @60 · Wet +10%",eq:"극저역 강조 · 정적 속 미세함",rv:"Very Long · 극도로 넓은 공간"},AM:{i:"🌅",n:"오전",mx:"+1.5dB @4k · Pre 10ms",eq:"Mid-High↑ · 선명",rv:"Short Pre-Delay · Immediate"},PM:{i:"⛅",n:"오후",mx:"+1dB @1k Q0.8",eq:"1kHz 중심 · 안정",rv:"Hall · Open Space"},NT:{i:"🌙",n:"밤",mx:"LPF 6k · Wet +8%",eq:"LPF · 깊고 아늑",rv:"Long Decay · High Wet"}},
+space:{CTY:{i:"🏙️",n:"도시",rvn:[15,.9,0],eq:"Mid↑ · 콘크리트 반사",rv:"Strong ER · Hard"},FRT:{i:"🌲",n:"숲속",rvn:[25,1.3,5],eq:"High-Cut · 흡음+Low↑",rv:"Irregular · Low Diffusion"},OCN:{i:"🌊",n:"바다",rvn:[80,2,8],eq:"Deep Low · Mid↓",rv:"Long Pre-Delay · Open Air"},MTN:{i:"⛰️",n:"산",rvn:[100,2.5,10],eq:"Mid-High↑ · 원거리",rv:"Echo · Mountain"},CAV:{i:"🕳️",n:"동굴",rvn:[60,3.5,20],eq:"Low-Mid↑ · 어두움",rv:"Very Long · Metallic"},RFD:{i:"🌾",n:"갈대밭",rvn:[60,1.6,6],eq:"Wide Mid · 바스락 질감",rv:"Open Field · Long Pre-Delay"},IND:{i:"🏠",n:"실내",rvn:[10,.6,-5],eq:"300~500Hz↑ · 방 울림",rv:"Room · 짧은 흡수 잔향"},CAR:{i:"🚗",n:"자동차",rvn:[3,.25,-10],eq:"Low-Mid 공명 · 좁은 대역",rv:"매우 짧은 · 밀폐 공간감"}},
+object:{
+/* ── 水 ── */
+RWAV:{mix:{hp:20,lp:6000,eq:[[60,2,.8],[400,-1.5,1],[1500,1,1]],wd:120,rv:[40,3.5,18],cmp:"2:1 @-24"},i:"🌊",n:"거친 파도",fam:"水 · 물",rec:"쇄파선 15~30m 뒤 · A-B 스페이스드 · 윈드실드 필수 · 파도 주기 5회 이상",cat:"env",vs:["OCN"],eq:"극저역 부스트 · 웅장",rv:"매우 긴 Decay · Open",k:"nat",bd:"20–2k",sl:-4.5,st:"Q",cf:10,sc:.35,lp:90,lv:-16,f:[3,3,2,3,2],r:[2,3]},
+SWAV:{mix:{hp:40,lp:8000,eq:[[120,1.5,.9],[800,-1,1.2],[3000,1,1]],wd:110,rv:[30,2.5,15],cmp:"1.5:1 @-26"},i:"🏖️",n:"잔잔한 파도",fam:"水 · 물",rec:"파도선 5~10m · A-B 넓게 · 규칙적 주기 구간만 · 발소리 배제",cat:"env",vs:["OCN"],eq:"Mid-Low 부드럽게 · 규칙적",rv:"Medium · 넓은 공간감",k:"nat",bd:"40–4k",sl:-4.0,st:"Q",cf:8,sc:.30,lp:60,lv:-16,f:[5,4,3,4,4],r:[2,1]},
+STRM:{mix:{hp:150,lp:12000,eq:[[300,-1,1],[2000,1.5,1],[6000,1,1.2]],wd:100,rv:[20,1.8,12],cmp:"없음"},i:"🏞️",n:"계곡(시냇물)",fam:"水 · 물",rec:"수면 30~50cm 위 · XY · 낙차 지점 살짝 비껴서",cat:"env",vs:["MTN","FRT","RFD"],eq:"Mid↑ · 낙차있는 물결",rv:"Canyon Echo · 불규칙 반사",k:"nat",bd:"150–9k",sl:-2.3,st:"S",cf:6,sc:.27,lp:45,lv:-16,f:[3,3,5,5,3],r:[2,2]},
+FALL:{mix:{hp:60,lp:14000,eq:[[250,-2,.8],[4000,1,1]],wd:130,rv:[50,2.8,20],cmp:"2:1 @-22"},i:"💦",n:"폭포",fam:"水 · 물",rec:"낙수점 3~5m 옆 · 물보라 차폐 · 입력 -10dB 여유",cat:"env",vs:["MTN","FRT"],eq:"광대역 · 낙차 충돌 밀도",rv:"Long · 물보라 확산",k:"nat",bd:"60–10k",sl:-1.8,st:"S",cf:5,sc:.35,lp:30,lv:-14,f:[2,3,4,5,2],r:[1,3]},
+/* ── 雨 ── */
+LRIN:{mix:{hp:300,lp:16000,eq:[[5000,1.5,1],[9000,1,1.2]],wd:100,rv:[10,1.2,10],cmp:"없음"},i:"🌦️",n:"가랑비",fam:"雨 · 비",rec:"처마·우산 아래 · 잎/수면 타격체 확보 · 무풍일 때",cat:"weather",vp:["LIGHT"],eq:"High-Mid · 섬세한 빗방울 입자",rv:"Light Wet · 미세한 질감",k:"nat",bd:"300–12k",sl:-1.5,st:"S",cf:8,sc:.20,lp:35,lv:-20,f:[4,4,5,4,3],r:[2,1]},
+HRIN:{mix:{hp:80,lp:12000,eq:[[150,1,.8],[2500,1,1]],wd:110,rv:[25,2.2,15],cmp:"2:1 @-20"},i:"🌧️",n:"폭우(소나기)",fam:"雨 · 비",rec:"차폐 아래에서 밖 지향 · 저역 클리핑 주의 · 지속부만",cat:"weather",vp:["RAIN","HEAVY"],eq:"Low↑ + 1~3kHz · 축축한 밀도",rv:"High Wet · 긴 Decay",k:"nat",bd:"80–10k",sl:-2.2,st:"S",cf:7,sc:.25,lp:40,lv:-14,f:[3,3,4,5,2],r:[2,3]},
+/* ── 風 ── */
+SWND:{mix:{hp:30,lp:6000,eq:[[80,2,.7],[1000,-1,1]],wd:130,rv:[60,3,22],cmp:"1.5:1 @-24"},i:"🌬️",n:"거센 바람",fam:"風 · 바람",rec:"마찰체(나무·구조물) 필수 · 블림프+퍼 · 직접 풍압 회피",cat:"env",vs:["OCN","MTN","CTY","RFD","FRT"],eq:"광대역 스위프",rv:"공간 크기에 따라 가변",k:"nat",bd:"30–5k",sl:-5.0,st:"Q",cf:9,sc:.40,lp:75,lv:-18,f:[3,4,3,4,2],r:[2,3]},
+RWND:{mix:{hp:200,lp:10000,eq:[[3000,1.5,1],[7000,1,1.2]],wd:115,rv:[35,2,14],cmp:"없음"},i:"🌾",n:"갈대숲 바람",fam:"風 · 바람",rec:"갈대 군락 1~2m · XY · 돌풍 사이 지속부 채집",cat:"env",vs:["RFD"],eq:"Wide Mid · 바스락 질감",rv:"Open Field · Long Pre-Delay",k:"nat",bd:"200–8k",sl:-2.8,st:"Q",cf:11,sc:.25,lp:50,lv:-20,f:[4,5,4,3,3],r:[2,1]},
+BUGS:{mix:{hp:2000,lp:10000,eq:[[5000,1,1.2]],wd:120,rv:[40,1.5,10],cmp:"없음"},i:"🐛",n:"풀벌레",fam:"生 · 생물층",rec:"야간 무풍 · 초지 가장자리 · ORTF · 20분 연속 테이크 · 단독 개체 3m 이상 이격",cat:"bio",vs:["FRT","RFD","MTN"],vtm:["NT","DWN"],vt:["COOL","WARM","HOT"],eq:"3~8kHz · 야간 고음 합창(여치·귀뚜라미 포함)",rv:"Open · 넓은 들판 느낌",k:"nat",bd:"3–8k",sl:-0.9,st:"S",cf:6,sc:.30,lp:25,lv:-21,f:[5,4,3,3,3],r:[1,1]},
+FROG:{mix:{hp:300,lp:5000,eq:[[800,1,1]],wd:110,rv:[30,1.8,14],cmp:"없음"},i:"🐸",n:"개구리",fam:"生 · 생물층",rec:"습지·논 · 야간 · 합창 절정 대기 · 수면 반사 살리기",cat:"bio",vs:["FRT","RFD"],vtm:["NT","DWN"],vt:["WARM","HOT"],eq:"400Hz~3kHz · 습지 합창",rv:"Open · 수면 반사",k:"nat",bd:"400–3k",sl:-2.0,st:"Q",cf:12,sc:.35,lp:40,lv:-22,f:[3,4,2,2,2],r:[3,2]},
+CCDA:{mix:{hp:1500,lp:8000,eq:[[4000,-2,1]],wd:105,rv:[15,1,8],cmp:"3:1 @-18"},i:"🪲",n:"매미",fam:"生 · 생물층",rec:"한낮 · 나무 5~10m · 과입력 주의 · 단일 개체 회피",cat:"bio",vs:["FRT","MTN","CTY","RFD"],vtm:["AM","PM"],vt:["WARM","HOT"],eq:"2~6kHz · V자형 강렬 진동",rv:"Short · 밀착감",k:"nat",bd:"2–6k",sl:-1.2,st:"S",cf:5,sc:.25,lp:20,lv:-20,f:[1,2,2,4,1],r:[2,5]},
+BRDL:{mix:{hp:1500,lp:10000,eq:[[3500,1,1]],wd:125,rv:[60,2.5,20],cmp:"없음"},i:"🐦",n:"새소리층",fam:"生 · 생물층",rec:"일출 전후 · 숲 안쪽 · ORTF/A-B · 원경 유지(근접 금지)",cat:"bio",vs:["FRT","RFD","MTN","CTY"],vtm:["DWN","AM","PM"],vt:["COOL","WARM","HOT"],eq:"2~8kHz · 원경 다중 지저귐",rv:"Long Pre-D · 숲 확산",k:"nat",bd:"2–8k",sl:-1.5,st:"Q",cf:13,sc:.30,lp:60,lv:-22,f:[2,3,3,2,3],r:[3,3]},
+/* ── 火·地 ── */
+FIRE:{mix:{hp:60,lp:9000,eq:[[150,2,.8],[2500,1,1]],wd:90,rv:[10,.8,6],cmp:"2:1 @-22"},i:"🔥",n:"모닥불",fam:"火·地 · 불과 땅",rec:"50~80cm · 저역 기저 + 파열 한 테이크로 · 장작 마른 것 · 10분 이상",cat:"env",vs:["FRT","MTN","CAV","OCN","IND","RFD"],eq:"Low 기저 + Mid 타닥 파열",rv:"공간에 따라 가변",k:"nat",bd:"80–7k",sl:-3.0,st:"Q",cf:13,sc:.20,lp:45,lv:-18,f:[4,4,4,3,4],r:[2,1]},
+VOLC:{mix:{hp:20,lp:300,eq:[[45,3,.7]],wd:60,rv:[80,6,10],cmp:"2:1 @-20"},i:"🌋",n:"화산 럼블",fam:"火·地 · 불과 땅",rec:"실측 불가 · 라이브러리/합성 전제 · 20~200Hz 서브 레이어로",cat:"env",vs:["MTN","CAV"],eq:"20~200Hz 지속 공명 · 초저역",rv:"Very Long · 대지 전파",k:"lib",bd:"20–200",sl:-7.0,st:"Q",cf:8,sc:.50,lp:120,lv:-16,f:[3,4,2,2,1],r:[2,3]}},
+point:{
+DROP:{mix:{hp:1500,lp:8000,eq:[[3500,1,1.2]],wd:100,rv:[30,2.5,35],cmp:"없음"},i:"💧",n:"물방울",rec:"동굴·욕실 등 공명체 · 근접 30cm · 개별 타격 20회 이상",vtime:["DWN","AM","PM","NT"],vspace:["CAV","IND","FRT","MTN"],vtemp:["COLD","COOL","WARM","HOT"],eq:"2~5kHz · 맑은 포인트",rv:"공간 비례 Echo",k:"nat",bd:"2–5k",dn:20,at:2,cf:17,lv:-22,f:[3,5,4,2,3],r:[3,2]},
+THDR:{mix:{hp:20,lp:1200,eq:[[60,2,.7]],wd:110,rv:[120,8,40],cmp:"리미터 -6 필수"},i:"🌩️",n:"천둥",rec:"실측 난이도 최상 · 원경 대기 · 저역 헤드룸 크게",vtime:["DWN","AM","PM","NT"],vspace:["CTY","FRT","OCN","MTN","RFD"],vtemp:["COLD","COOL","WARM","HOT"],vp:["RAIN","HEAVY"],eq:"극저역 공명 + 돌발성",rv:"매우 긴 Decay · 잔향 울림",k:"nat",bd:"20–800",dn:0.5,at:30,cf:18,lv:-12,f:[1,2,1,1,1],r:[4,5]},
+BIRD:{mix:{hp:800,lp:9000,eq:[],wd:100,rv:[20,1.2,15],cmp:"없음"},i:"🐦",n:"새울음 단발",rec:"근접 개체 지향 · 샷건 · 종별 폴더 분리 저장",vtime:["DWN","AM","PM"],vspace:["CTY","FRT","RFD","MTN","OCN"],vtemp:["COLD","COOL","WARM","HOT"],eq:"1~6kHz · 근접 단발 지저귐",rv:"Short · 가까운 거리감",k:"nat",bd:"1–6k",dn:8,at:6,cf:14,lv:-22,f:[2,3,2,1,3],r:[3,3]},
+LEAF:{mix:{hp:250,lp:11000,eq:[],wd:90,rv:[5,.4,5],cmp:"없음"},i:"🍂",n:"낙엽 밟기",rec:"마른 낙엽 · 발밑 40cm · 20보 이상 · 옷 스침 배제",vtime:["DWN","AM","PM","NT"],vspace:["FRT","MTN","RFD","CTY"],vtemp:["COLD","COOL","WARM"],eq:"High-Mid 바스락 · Dry",rv:"짧은 · Dry 질감",k:"nat",bd:"300–9k",dn:60,at:4,cf:14,lv:-20,f:[2,3,3,2,2],r:[4,3]},
+SNWK:{mix:{hp:150,lp:6000,eq:[],wd:90,rv:[3,.3,4],cmp:"없음"},i:"👣",n:"눈 밟기",rec:"설질별(신설/다짐) 각각 테이크 · 발밑 40cm",vtime:["DWN","AM","PM","NT"],vspace:["FRT","MTN","CTY","RFD"],vtemp:["COLD","COOL"],vp:["DRY","CLD"],eq:"Mid 뽀드득 · 압축감",rv:"극도로 짧은 · 먹먹함",k:"nat",bd:"200–5k",dn:55,at:5,cf:15,lv:-20,f:[2,3,3,2,2],r:[4,3]},
+GRVL:{mix:{hp:300,lp:12000,eq:[],wd:90,rv:[5,.4,5],cmp:"없음"},i:"🪨",n:"자갈 밟기",rec:"입자 크기별 2종 · 발밑 40cm · 마찰/파쇄 분리",vtime:["DWN","AM","PM","NT"],vspace:["MTN","FRT","RFD","CTY","OCN"],vtemp:["COLD","COOL","WARM","HOT"],eq:"400Hz~10k · 파쇄 마찰",rv:"Short · Dry",k:"nat",bd:"400–10k",dn:55,at:3,cf:16,lv:-22,f:[2,2,3,2,2],r:[4,3]},
+BRCH:{mix:{hp:400,lp:10000,eq:[],wd:90,rv:[15,1,10],cmp:"없음"},i:"🌿",n:"나뭇가지",rec:"굵기별 3종 · 근접 · 스냅 단발 다수",vtime:["DWN","AM","PM","NT"],vspace:["FRT","MTN","RFD"],vtemp:["COLD","COOL","WARM","HOT"],eq:"500Hz~8k · 파열 스냅",rv:"Short · 숲 흡음",k:"nat",bd:"500–8k",dn:3,at:2,cf:19,lv:-26,f:[1,2,2,1,2],r:[3,4]}}
+};
+
+const FN=["수면","명상","집중","마스킹","태교"];
+const RK=["루프인지","각성"];
+const STN={S:"정상",Q:"준정상",T:"트랜지언트"};
+const FAMC={"水 · 물": "#2980B9", "雨 · 비": "#5DADE2", "風 · 바람": "#16A085", "生 · 생물층": "#8E44AD", "火·地 · 불과 땅": "#E67E22", "톤 · 공간 바닥": "#7F8C8D"};
+
+const COL={p:"#1ABC9C",t:"#E67E22",tm:"#8E44AD",sp:"#C0392B",ob:"#2C3E50",pt:"#16A085"};
+const CC={env:"#27AE60",weather:"#2980B9",bio:"#8E44AD",tone:"#7F8C8D"};
+const CN={env:"환경 상존",weather:"날씨 연동",bio:"생물층",tone:"공간 톤"};
+const P_T_BAD={HEAVY:["COLD"]};
+let S={p:"RAIN",t:"COOL",tm:"PM",sp:"FRT",ob:"HRIN",pt:[]};
+let tab="source"; // source | select | result | matrix | logic
+let MX={g:"object",nat:true,sort:"f0",dir:-1};
+function mxSet(k,v){if(k==="sort"&&MX.sort===v){MX.dir*=-1}else if(k==="sort"){MX.sort=v;MX.dir=-1}else{MX[k]=v}render()}
+function mxToggleNat(){MX.nat=!MX.nat;render()}
+function mxScore(v){const t=MX.sort;if(t==="1f")return -Math.abs((v.sl??-3)+3);if(t.startsWith("f"))return v.f[+t[1]];if(t.startsWith("r"))return -v.r[+t[1]];if(t==="dn")return v.dn??0;if(t==="cf")return v.cf??0;return 0}
+function mxColor(n){return ["#d9dde1","#E74C3C","#E67E22","#F1C40F","#5DADE2","#27AE60"][n]||"#d9dde1"}
+
+function okB(v){if(v.vs&&!v.vs.includes(S.sp))return false;if(v.vp&&!v.vp.includes(S.p))return false;if(v.vt&&!v.vt.includes(S.t))return false;if(v.vtm&&!v.vtm.includes(S.tm))return false;return true}
+function vO(){return Object.entries(D.object).filter(([,v])=>okB(v)).map(([k])=>k)}
+function okP(v){return v.vtime.includes(S.tm)&&v.vspace.includes(S.sp)&&v.vtemp.includes(S.t)&&(!v.vp||v.vp.includes(S.p))}
+function vP(){return Object.entries(D.point).filter(([,v])=>okP(v)).map(([k])=>k)}
+function ib(){return P_T_BAD[S.p]?.includes(S.t)}
+function pk(k,v){if(k==='p'){S.p=v;const vo=vO();if(!vo.includes(S.ob)&&vo.length)S.ob=vo[0]}else if(k==='pt'){const i=S.pt.indexOf(v);if(i>-1)S.pt.splice(i,1);else S.pt.push(v)}else S[k]=v;const vo2=vO();if(!vo2.includes(S.ob)&&vo2.length)S.ob=vo2[0];S.pt=S.pt.filter(p=>{const d=D.point[p];return d&&okP(d)});render()}
+function setTab(t){tab=t;render()}
+function cpFN(){const pts=S.pt.length?'_'+S.pt.join('+'):'';const fn=`${S.p}_${S.t}_${S.tm}_${S.sp}_${S.ob}${pts}.wav`;if(navigator.clipboard)navigator.clipboard.writeText(fn);else{const a=document.createElement('textarea');a.value=fn;document.body.appendChild(a);a.select();document.execCommand('copy');document.body.removeChild(a)}const b=document.getElementById('cpb');if(b){b.textContent='✓ 복사됨';setTimeout(()=>b.textContent='📋 파일명 복사',1500)}}
+
+function render(){
+const vo=vO(),vp=vP(),bad=ib();
+const pr=D.precip[S.p],tp=D.temp[S.t],tm=D.time[S.tm],sp=D.space[S.sp],ob=D.object[S.ob]||D.object[vo[0]]||{i:"",n:"-",eq:"-",rv:"-"};
+const pts=S.pt.length?'_'+S.pt.join('+'):'';
+const fn=`${S.p}_${S.t}_${S.tm}_${S.sp}_${S.ob}${pts}.wav`;
+
+// Tabs
+document.getElementById('tabs').innerHTML=
+[["source","🎧 원본"],["select","🎹 선택"],["result","🎛️ 결과"],["matrix","📊 매트릭스"],["logic","🔍 로직"]].map(([k,l])=>
+`<div class="tab ${tab===k?'a':''}" onclick="setTab('${k}')">${l}</div>`).join('');
+
+let h='';
+
+// Tags always visible
+h+=`<div class="tags">`;
+[[pr,COL.p],[tp,COL.t],[tm,COL.tm],[sp,COL.sp],[ob,COL.ob]].forEach(([d,c])=>{h+=`<span class="tag" style="color:${c};border-color:${c}33;background:${c}0d">${d.i}${d.n}</span>`});
+S.pt.forEach(k=>{const p=D.point[k];if(p)h+=`<span class="tag" style="color:${COL.pt};border-color:${COL.pt}33;background:${COL.pt}0d">${p.i}${p.n}</span>`});
+h+=`</div>`;
+
+if(bad)h+=`<div class="warn">⚠️ <strong>${pr.i}${pr.n} + ${tp.i}${tp.n}</strong> — 불가능한 조합입니다.</div>`;
+if(!bad&&!vo.length)h+=`<div class="warn">⚠️ <strong>${sp.i}${sp.n} + ${pr.i}${pr.n}</strong> — 성립하는 배경음이 없습니다. 이 공간엔 자연음이 존재하지 않는 조건입니다.</div>`;
+
+// ── TAB: SOURCE ──
+if(tab==="source"){
+const bg=Object.entries(D.object), pt=Object.entries(D.point);
+h+=`<div class="sr-int"><h3>🎧 녹음 원본 목록</h3><p><b>배경음</b> — 개별 이벤트가 식별되지 않음 · 무한 루프 가능 · 공간의 바닥을 만듦<br><b>포인트음</b> — 이벤트가 식별됨 · 위치와 시각을 지정함 · 배경 위에 찍힘<br>이 ${bg.length+pt.length}개가 전부. 나머지는 전부 이걸 변형·믹싱해서 만든다.</p></div>`;
+
+h+=`<div class="card"><div class="card-head">🌊 배경음<span>${bg.length}종 · 루프 소스</span></div>`;
+let ci=null;
+bg.forEach(([k,v],idx)=>{
+  if(v.fam!==ci){ci=v.fam;h+=`<div class="cat-label" style="color:${FAMC[ci]};background:${FAMC[ci]}10;border-left:2px solid ${FAMC[ci]}">${ci}</div>`}
+  h+=`<div class="sr-row"><span class="sr-no">${String(idx+1).padStart(2,"0")}</span><span class="sr-i">${v.i}</span><div class="sr-b">
+  <div class="sr-h"><span class="sr-n">${v.n}</span><span class="sr-tag" style="color:${CC[v.cat]};background:${CC[v.cat]}15">${CN[v.cat]}</span>${v.k==='lib'?`<span class="sr-tag" style="color:#E67E22;background:#E67E2215">라이브러리</span>`:``}</div>
+  <div class="sr-m">대역 <b>${v.bd}</b> · 정상성 <b>${STN[v.st]}</b> · 최소 루프 <b>${v.lp}s</b></div>
+  <div class="sr-r">🎙️ ${v.rec}</div></div></div>`});
+h+=`</div>`;
+
+h+=`<div class="card"><div class="card-head" style="color:#16A085">✨ 포인트음<span>${pt.length}종 · 단발 소스</span></div>`;
+pt.forEach(([k,v],idx)=>{
+  h+=`<div class="sr-row"><span class="sr-no">${String(idx+1).padStart(2,"0")}</span><span class="sr-i">${v.i}</span><div class="sr-b">
+  <div class="sr-h"><span class="sr-n">${v.n}</span></div>
+  <div class="sr-m">대역 <b>${v.bd}</b> · 밀도 <b>${v.dn}</b>/분 · 어택 <b>${v.at}</b>ms</div>
+  <div class="sr-r">🎙️ ${v.rec}</div></div></div>`});
+h+=`</div>`;
+h+=`<div class="mx-hint">녹음이 끝나면 → <b>🎹 선택</b>에서 조건을 걸고 → <b>🎛️ 결과</b>에서 믹싱 처방을 받는다.</div>`;
+}
+
+// ── TAB: SELECT ──
+if(tab==="select"){
+function mkS(key,label,num,data,gc,col,sk){
+  let hint='';if(sk==='ob')hint='3분류 필터';else if(sk==='pt')hint=`${tm.i}+${sp.i}+${tp.i} 호환·복수`;
+  const hh=hint?`<span class="sec-hint">${hint}</span>`:'';
+  let s=`<div class="sec"><div class="sec-head"><span class="sec-num" style="background:${col}">L${num}</span><span class="sec-label" style="color:${col}">${label}</span>${hh}</div><div class="bg ${gc}">`;
+  Object.entries(data).forEach(([k,v])=>{let sel,dis=false;if(sk==='pt'){sel=S.pt.includes(k);dis=!okP(v)}else if(sk==='ob'){sel=S.ob===k;dis=!vo.includes(k)}else{sel=S[sk]===k}s+=`<div class="btn ${sel?'a':''} ${dis?'d':''}" style="${sel?`background:${col};border-color:${col}`:''}" ${dis?'':`onclick="pk('${sk}','${k}')"`}><span class="bi">${v.i}</span><span class="bt">${v.n}</span></div>`});
+  return s+'</div></div>'}
+
+h+=mkS('p','강수 상태',1,D.precip,'g3',COL.p,'p');
+h+=mkS('t','기온',2,D.temp,'g4',COL.t,'t');
+h+=mkS('tm','시간대',3,D.time,'g4',COL.tm,'tm');
+h+=mkS('sp','공간',4,D.space,'g4',COL.sp,'sp');
+
+// L5 with categories
+h+=`<div class="sec"><div class="sec-head"><span class="sec-num" style="background:${COL.ob}">L5</span><span class="sec-label" style="color:${COL.ob}">오브제</span><span class="sec-hint">3분류 필터</span></div>`;
+[["env","환경 상존","#27AE60"],["weather","날씨 연동","#2980B9"],["bio","생물층","#8E44AD"],["tone","공간 톤","#7F8C8D"]].forEach(([cat,name,cc])=>{
+  const items=Object.entries(D.object).filter(([,v])=>v.cat===cat);if(!items.length)return;
+  h+=`<div class="cat-label" style="color:${cc};background:${cc}10;border-left:2px solid ${cc}">${name}</div><div class="bg g${Math.min(items.length,4)}">`;
+  items.forEach(([k,v])=>{const sel=S.ob===k,dis=!vo.includes(k);h+=`<div class="btn ${sel?'a':''} ${dis?'d':''}" style="${sel?`background:${COL.ob};border-color:${COL.ob}`:''}" ${dis?'':`onclick="pk('ob','${k}')"`}><span class="bi">${v.i}</span><span class="bt">${v.n}</span></div>`});
+  h+=`</div>`});
+h+=`</div>`;
+
+h+=mkS('pt','포인트 사운드',6,D.point,'g3',COL.pt,'pt');
+}
+
+// ── TAB: RESULT ──
+if(tab==="result"&&!bad&&vo.includes(S.ob)){
+h+=`<div class="fname-bar"><div class="fname-label">FILE NAME</div><div class="fname-text">${fn}</div><button class="copy-btn" id="cpb" onclick="cpFN()">📋 파일명 복사</button></div>`;
+
+// 믹스 시트 — 원본 기준
+h+=`<div class="card"><div class="card-head">🎚️ 믹스 시트<span>배경 1 + 포인트 ${S.pt.length}</span></div>`;
+h+=`<div class="sr-row"><span class="sr-no">BG</span><span class="sr-i">${ob.i}</span><div class="sr-b">
+<div class="sr-h"><span class="sr-n">${ob.n}</span><span class="sr-tag" style="color:${CC[ob.cat]};background:${CC[ob.cat]}15">${CN[ob.cat]}</span></div>
+<div class="sr-m">레벨 <b>${ob.lv}dB</b> · 루프 <b>${ob.lp}s</b> 이상 · 대역 <b>${ob.bd}</b> · 정상성 <b>${STN[ob.st]}</b></div></div></div>`;
+if(!S.pt.length)h+=`<div class="sr-row"><span class="sr-no">PT</span><div class="sr-b"><div class="sr-r" style="color:#aaa">포인트음 없음 — 배경만으로 성립하는 조합.</div></div></div>`;
+S.pt.forEach(k=>{const p=D.point[k];h+=`<div class="sr-row"><span class="sr-no">PT</span><span class="sr-i">${p.i}</span><div class="sr-b">
+<div class="sr-h"><span class="sr-n">${p.n}</span></div>
+<div class="sr-m">레벨 <b>${p.lv}dB</b> · 밀도 <b>${p.dn}</b>/분 · 어택 <b>${p.at}</b>ms</div></div></div>`});
+const hd=S.pt.length?Math.min(...S.pt.map(k=>D.point[k].lv))-ob.lv:null;
+if(hd!==null)h+=`<div class="sr-row"><span class="sr-no">Δ</span><div class="sr-b"><div class="sr-r">배경 대비 포인트 최대 <b>${hd>0?'+':''}${hd}dB</b> — ${hd>=0?'⚠️ 포인트가 배경보다 큼. 배경이 밀림':'포인트가 배경 아래. 정상'}</div></div></div>`;
+h+=`</div>`;
+
+const fq=z=>z>=1000?(z/1000).toFixed(z%1000?1:0)+"k":z;
+const eqS=v=>v.mix.eq.length?v.mix.eq.map(e=>`${e[1]>0?"+":""}${e[1]}dB @${fq(e[0])} Q${e[2]}`).join(" · "):"플랫";
+const rvS=(v,sm)=>{const r=v.mix.rv;const pre=Math.round(r[0]+sm[0]),dec=Math.min(r[1]*sm[1],8).toFixed(1),wet=Math.max(0,Math.round(r[2]+sm[2]));return `Pre ${pre}ms · Decay ${dec}s · Wet ${wet}%`};
+const sm=sp.rvn;
+
+h+=`<div class="card"><div class="card-head">🎚️ 소스 처방 (수치)<span>공간=${sp.n} 잔향 반영</span></div>`;
+const srcs=[["BG",ob]].concat(S.pt.map(k=>["PT",D.point[k]]));
+srcs.forEach(([tag,v])=>{h+=`<div class="mx-row">
+<div class="mx-t"><span class="mx-n">${v.i} ${v.n}</span><span class="mx-sc" style="color:#16A085">${v.lv}dB</span></div>
+<div class="mx-ph">HPF <b>${fq(v.mix.hp)}</b> · LPF <b>${fq(v.mix.lp)}</b> · EQ <b>${eqS(v)}</b><br>Width <b>${v.mix.wd}%</b> · Comp <b>${v.mix.cmp}</b><br>Reverb <b>${rvS(v,sm)}</b></div></div>`});
+h+=`</div>`;
+
+h+=`<div class="card"><div class="card-head">🎚️ 조건 레이어 보정<span>버스 전체에 적용</span></div>`;
+[["강수 "+pr.n,pr.mx,COL.p],["기온 "+tp.n,tp.mx,COL.t],["시간 "+tm.n,tm.mx,COL.tm],["공간 "+sp.n,`Pre +${sm[0]}ms · Decay ×${sm[1]} · Wet ${sm[2]>=0?"+":""}${sm[2]}%`,COL.sp]].forEach(([l,x,c])=>{
+h+=`<div class="layer"><span class="layer-tag" style="color:${c};background:${c}12">${l}</span><div class="layer-c"><div class="layer-eq">🎚️ ${x}</div></div></div>`});
+h+=`</div>`;
+
+h+=`<div class="card"><div class="card-head">교체 가능한 배경음<span>${vo.length}종</span></div>`;
+vo.forEach(k=>{const o=D.object[k];const a=k===S.ob;h+=`<div class="li ${a?'a':''}" onclick="pk('ob','${k}')"><div><span class="li-n ${a?'a':''}">${o.i} ${o.n}</span><span class="li-cat" style="color:${CC[o.cat]};background:${CC[o.cat]}15">${CN[o.cat]}</span>${a?'<span class="li-b">● 선택</span>':''}</div><span class="li-c">${o.lv}dB · 루프 ${o.lp}s</span></div>`});
+h+=`</div>`;
+
+if(vp.length){h+=`<div class="card"><div class="card-head" style="color:#16A085">추가 가능한 포인트음<span>${vp.length}종 활성 · ${S.pt.length}종 선택</span></div>`;
+vp.forEach(k=>{const p=D.point[k];const a=S.pt.includes(k);h+=`<div class="li ${a?'a':''}" onclick="pk('pt','${k}')"><div><span class="li-n ${a?'a':''}" style="${a?'color:#16A085':''}">${p.i} ${p.n}</span>${a?'<span class="li-b">✓</span>':''}</div><span class="li-c">${p.bd} · ${p.dn}/분</span></div>`});
+h+=`</div>`}
+}
+
+// ── TAB: MATRIX ──
+if(tab==="matrix"){
+const isBg=MX.g==="object";
+let rows=Object.entries(isBg?D.object:D.point);
+rows.sort((a,b)=>(mxScore(b[1])-mxScore(a[1]))*(MX.dir===-1?1:-1));
+
+h+=`<div class="mx-bar">
+<div class="mx-seg"><div class="${isBg?'a':''}" onclick="mxSet('g','object')">배경음</div><div class="${!isBg?'a':''}" onclick="mxSet('g','point')">포인트음</div></div>
+<span class="mx-chip" onclick="mxSet('sort','${MX.sort}')">${MX.dir===-1?'▼ 내림':'▲ 오름'}</span>
+</div>`;
+
+const opts=[["f0","수면 적합도"],["f1","명상 적합도"],["f2","집중 적합도"],["f3","음성마스킹 적합도"],["f4","태교 적합도"],["r0","루프 인지 (낮은 순)"],["r1","각성 유발 (낮은 순)"],["cf","크레스트 팩터"]];
+if(isBg)opts.push(["1f","1/f 근접도"]);else opts.push(["dn","이벤트 밀도"]);
+h+=`<select class="mx-sort" onchange="mxSet('sort',this.value)">${opts.map(([k,l])=>`<option value="${k}" ${MX.sort===k?'selected':''}>정렬 · ${l}</option>`).join('')}</select>`;
+h+=`<div class="mx-hint">${isBg?'배경음 = 개별 이벤트 식별 불가 · 무한 루프 가능. 정상성·1/f 근접도·루프 길이가 성패를 가름.':'포인트음 = 이벤트 식별됨 · 위치와 시각을 지정. 밀도·어택·각성도가 성패를 가름.'}</div>`;
+
+h+=`<div class="card"><div class="card-head" style="color:#16A085">${isBg?'🌊 배경음 원본':'✨ 포인트음 원본'}<span>${rows.length}종</span></div>`;
+rows.forEach(([k,v])=>{
+  const st=MX.sort;
+  let disp = st.startsWith("f")?v.f[+st[1]]+"/5" : st.startsWith("r")?v.r[+st[1]]+"/5" : st==="1f"?(v.sl+" dB/oct") : st==="cf"?(v.cf+" dB") : st==="dn"?(v.dn+"/분") : "";
+  h+=`<div class="mx-row">
+  <div class="mx-t"><span class="mx-n">${v.i} ${v.n}</span>
+  ${isBg?`<span class="mx-k" style="color:${CC[v.cat]};background:${CC[v.cat]}15">${CN[v.cat]}</span>`:''}
+  ${v.k==='lib'?`<span class="mx-k" style="color:#E67E22;background:#E67E2215">라이브러리</span>`:''}
+  <span class="mx-sc" style="color:#16A085">${disp}</span></div>
+  <div class="mx-ph">대역 <b>${v.bd}</b> · ${isBg?`기울기 <b>${v.sl}</b> dB/oct · 정상성 <b>${STN[v.st]}</b> · 상관도 <b>${v.sc}</b> · 루프 <b>${v.lp}s</b>`:`밀도 <b>${v.dn}</b>/분 · 어택 <b>${v.at}</b>ms`} · 크레스트 <b>${v.cf}</b>dB · 레벨 <b>${v.lv}</b>dB</div>
+  <div class="mx-g">${v.f.map((n,i)=>`<div class="mx-c"><span class="mx-cl">${FN[i]}</span><span class="mx-cv" style="background:${mxColor(n)}">${n}</span></div>`).join('')}</div>
+  <div class="mx-g r2">${v.r.map((n,i)=>`<div class="mx-c"><span class="mx-cl">${RK[i]} 위험</span><span class="mx-cv" style="background:${mxColor(6-n)}">${n}</span></div>`).join('')}</div>
+  </div>`});
+h+=`</div>`;
+}
+
+h+=`<div class="fo">General Pause Sound Objet</div>`;
+document.getElementById('app').innerHTML=h}
+render();
+</script>
+</body>
+</html>
