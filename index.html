@@ -92,6 +92,15 @@ body{font-family:-apple-system,'SF Pro Display','Helvetica Neue',sans-serif;back
 .sr-m b{color:#1B3A4B;font-weight:700}
 .sr-r{font-size:10.5px;color:#4a5259;line-height:1.6}
 .sr-no{width:20px;flex:none;font-size:9px;font-weight:800;color:#c3c9cf;padding-top:4px;text-align:right;font-family:ui-monospace,monospace}
+
+/* expandable details */
+.sr-row{cursor:pointer}
+.sr-det{margin-top:7px;background:#F4F7F6;border-radius:9px;padding:9px 11px;font-size:9.5px;font-family:ui-monospace,'SF Mono',monospace;line-height:1.9;color:#3a4249}
+.sr-det b{color:#0E5A4A;font-weight:800}
+.sr-det .stp{color:#16A085;font-weight:800;margin-right:4px}
+.sr-more{font-size:8.5px;color:#b7bec5;font-weight:700;margin-left:auto;flex:none;padding-top:5px}
+.mst-row{padding:10px 13px;border-bottom:1px solid #f2f2f2;font-size:10px;font-family:ui-monospace,monospace;line-height:1.9;color:#3a4249}
+.mst-row b{color:#0E5A4A;font-weight:800}
 /* Matrix (v4) */
 .mx-bar{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px;align-items:center}
 .mx-seg{display:flex;background:#fff;border-radius:9px;padding:2px;box-shadow:0 1px 4px #0001}
@@ -133,36 +142,39 @@ time:{DWN:{i:"🌄",n:"새벽",mx:"+2dB @60 · Wet +10%",eq:"극저역 강조 ·
 space:{CTY:{i:"🏙️",n:"도시",rvn:[15,.9,0],eq:"Mid↑ · 콘크리트 반사",rv:"Strong ER · Hard"},FRT:{i:"🌲",n:"숲속",rvn:[25,1.3,5],eq:"High-Cut · 흡음+Low↑",rv:"Irregular · Low Diffusion"},OCN:{i:"🌊",n:"바다",rvn:[80,2,8],eq:"Deep Low · Mid↓",rv:"Long Pre-Delay · Open Air"},MTN:{i:"⛰️",n:"산",rvn:[100,2.5,10],eq:"Mid-High↑ · 원거리",rv:"Echo · Mountain"},CAV:{i:"🕳️",n:"동굴",rvn:[60,3.5,20],eq:"Low-Mid↑ · 어두움",rv:"Very Long · Metallic"},RFD:{i:"🌾",n:"갈대밭",rvn:[60,1.6,6],eq:"Wide Mid · 바스락 질감",rv:"Open Field · Long Pre-Delay"},IND:{i:"🏠",n:"실내",rvn:[10,.6,-5],eq:"300~500Hz↑ · 방 울림",rv:"Room · 짧은 흡수 잔향"},CAR:{i:"🚗",n:"자동차",rvn:[3,.25,-10],eq:"Low-Mid 공명 · 좁은 대역",rv:"매우 짧은 · 밀폐 공간감"}},
 object:{
 /* ── 水 ── */
-RWAV:{mix:{hp:20,lp:6000,eq:[[60,2,.8],[400,-1.5,1],[1500,1,1]],wd:120,rv:[40,3.5,18],cmp:"2:1 @-24"},i:"🌊",n:"거친 파도",fam:"水 · 물",rec:"쇄파선 15~30m 뒤 · A-B 스페이스드 · 윈드실드 필수 · 파도 주기 5회 이상",cat:"env",vs:["OCN"],eq:"극저역 부스트 · 웅장",rv:"매우 긴 Decay · Open",k:"nat",bd:"20–2k",sl:-4.5,st:"Q",cf:10,sc:.35,lp:90,lv:-16,f:[3,3,2,3,2],r:[2,3]},
-SWAV:{mix:{hp:40,lp:8000,eq:[[120,1.5,.9],[800,-1,1.2],[3000,1,1]],wd:110,rv:[30,2.5,15],cmp:"1.5:1 @-26"},i:"🏖️",n:"잔잔한 파도",fam:"水 · 물",rec:"파도선 5~10m · A-B 넓게 · 규칙적 주기 구간만 · 발소리 배제",cat:"env",vs:["OCN"],eq:"Mid-Low 부드럽게 · 규칙적",rv:"Medium · 넓은 공간감",k:"nat",bd:"40–4k",sl:-4.0,st:"Q",cf:8,sc:.30,lp:60,lv:-16,f:[5,4,3,4,4],r:[2,1]},
-STRM:{mix:{hp:150,lp:12000,eq:[[300,-1,1],[2000,1.5,1],[6000,1,1.2]],wd:100,rv:[20,1.8,12],cmp:"없음"},i:"🏞️",n:"계곡(시냇물)",fam:"水 · 물",rec:"수면 30~50cm 위 · XY · 낙차 지점 살짝 비껴서",cat:"env",vs:["MTN","FRT","RFD"],eq:"Mid↑ · 낙차있는 물결",rv:"Canyon Echo · 불규칙 반사",k:"nat",bd:"150–9k",sl:-2.3,st:"S",cf:6,sc:.27,lp:45,lv:-16,f:[3,3,5,5,3],r:[2,2]},
-FALL:{mix:{hp:60,lp:14000,eq:[[250,-2,.8],[4000,1,1]],wd:130,rv:[50,2.8,20],cmp:"2:1 @-22"},i:"💦",n:"폭포",fam:"水 · 물",rec:"낙수점 3~5m 옆 · 물보라 차폐 · 입력 -10dB 여유",cat:"env",vs:["MTN","FRT"],eq:"광대역 · 낙차 충돌 밀도",rv:"Long · 물보라 확산",k:"nat",bd:"60–10k",sl:-1.8,st:"S",cf:5,sc:.35,lp:30,lv:-14,f:[2,3,4,5,2],r:[1,3]},
+RWAV:{mix:{hp:20,lp:6000,eqL:["파도 몸통 무게감","중저역 뭉침 제거","물결 디테일"],eq:[[60,2,.8],[400,-1.5,1],[1500,1,1]],wd:120,rv:[40,3.5,18],cmp:"2:1 · Thr -24dB · Atk 30ms · Rel Auto"},i:"🌊",n:"거친 파도",fam:"水 · 물",rec:"파도가 하얗게 부서지는 거품 라인에서 15~30m 뒤 모래 위. 마이크 2개를 40~60cm 벌려 삼각대에 고정(A-B). 털 윈드실드 필수. 파도가 5번 이상 지나갈 때까지 끊지 말고 녹음",cat:"env",vs:["OCN"],eq:"극저역 부스트 · 웅장",rv:"매우 긴 Decay · Open",k:"nat",bd:"20–2k",sl:-4.5,st:"Q",cf:10,sc:.35,lp:90,lv:-10,f:[3,3,2,3,2],r:[2,3]},
+SWAV:{mix:{hp:40,lp:8000,eqL:["잔파도 몸통","답답함 제거","포말 반짝임"],eq:[[120,1.5,.9],[800,-1,1.2],[3000,1,1]],wd:110,rv:[30,2.5,15],cmp:"1.5:1 · Thr -26dB · Atk 40ms · Rel Auto"},i:"🏖️",n:"잔잔한 파도",fam:"水 · 물",rec:"물 닿는 선에서 5~10m. 마이크 2개를 60cm~1m 넓게. 파도가 규칙적인 시간대만. 자기 발소리 주의",cat:"env",vs:["OCN"],eq:"Mid-Low 부드럽게 · 규칙적",rv:"Medium · 넓은 공간감",k:"nat",bd:"40–4k",sl:-4.0,st:"Q",cf:8,sc:.30,lp:60,lv:-15,f:[5,4,3,4,4],r:[2,1]},
+STRM:{mix:{hp:150,lp:12000,eqL:["웅웅거림 제거","물소리 또렷하게","고역 청량감"],eq:[[300,-1,1],[2000,1.5,1],[6000,1,1.2]],wd:100,rv:[20,1.8,12],cmp:"불필요 — 그대로 둔다"},i:"🏞️",n:"계곡(시냇물)",fam:"水 · 물",rec:"물 표면에서 30~50cm 높이. 마이크 2개를 한 점에서 90도 교차(XY). 물 떨어지는 지점 정면 말고 살짝 옆",cat:"env",vs:["MTN","FRT","RFD"],eq:"Mid↑ · 낙차있는 물결",rv:"Canyon Echo · 불규칙 반사",k:"nat",bd:"150–9k",sl:-2.3,st:"S",cf:6,sc:.27,lp:45,lv:-20,f:[3,3,5,5,3],r:[2,2]},
+FALL:{mix:{hp:60,lp:14000,eqL:["혼탁함 제거","물보라 존재감"],eq:[[250,-2,.8],[4000,1,1]],wd:130,rv:[50,2.8,20],cmp:"2:1 · Thr -22dB · Atk 30ms · Rel Auto"},i:"💦",n:"폭포",fam:"水 · 물",rec:"물기둥에서 3~5m 옆. 물방울 튀는 곳 피하기. 소리가 커서 입력 게인을 평소보다 10dB 낮게",cat:"env",vs:["MTN","FRT"],eq:"광대역 · 낙차 충돌 밀도",rv:"Long · 물보라 확산",k:"nat",bd:"60–10k",sl:-1.8,st:"S",cf:5,sc:.35,lp:30,lv:-18,f:[2,3,4,5,2],r:[1,3]},
 /* ── 雨 ── */
-LRIN:{mix:{hp:300,lp:16000,eq:[[5000,1.5,1],[9000,1,1.2]],wd:100,rv:[10,1.2,10],cmp:"없음"},i:"🌦️",n:"가랑비",fam:"雨 · 비",rec:"처마·우산 아래 · 잎/수면 타격체 확보 · 무풍일 때",cat:"weather",vp:["LIGHT"],eq:"High-Mid · 섬세한 빗방울 입자",rv:"Light Wet · 미세한 질감",k:"nat",bd:"300–12k",sl:-1.5,st:"S",cf:8,sc:.20,lp:35,lv:-20,f:[4,4,5,4,3],r:[2,1]},
-HRIN:{mix:{hp:80,lp:12000,eq:[[150,1,.8],[2500,1,1]],wd:110,rv:[25,2.2,15],cmp:"2:1 @-20"},i:"🌧️",n:"폭우(소나기)",fam:"雨 · 비",rec:"차폐 아래에서 밖 지향 · 저역 클리핑 주의 · 지속부만",cat:"weather",vp:["RAIN","HEAVY"],eq:"Low↑ + 1~3kHz · 축축한 밀도",rv:"High Wet · 긴 Decay",k:"nat",bd:"80–10k",sl:-2.2,st:"S",cf:7,sc:.25,lp:40,lv:-14,f:[3,3,4,5,2],r:[2,3]},
+LRIN:{mix:{hp:300,lp:16000,eqL:["빗방울 입자감","공기감"],eq:[[5000,1.5,1],[9000,1,1.2]],wd:100,rv:[10,1.2,10],cmp:"불필요 — 그대로 둔다"},i:"🌦️",n:"가랑비",fam:"雨 · 비",rec:"처마·우산 아래서 마이크만 밖으로. 빗방울이 잎이나 웅덩이를 때리는 곳 근처. 바람 없는 날",cat:"weather",vp:["LIGHT"],eq:"High-Mid · 섬세한 빗방울 입자",rv:"Light Wet · 미세한 질감",k:"nat",bd:"300–12k",sl:-1.5,st:"S",cf:8,sc:.20,lp:35,lv:-18,f:[4,4,5,4,3],r:[2,1]},
+HRIN:{mix:{hp:80,lp:12000,eqL:["빗줄기 무게","타격 또렷하게"],eq:[[150,1,.8],[2500,1,1]],wd:110,rv:[25,2.2,15],cmp:"2:1 · Thr -20dB · Atk 30ms · Rel Auto"},i:"🌧️",n:"폭우(소나기)",fam:"雨 · 비",rec:"지붕 밑에서 바깥 방향으로. 입력 게인 낮춰 피크 깨짐 방지. 차·천둥 없는 구간만 사용",cat:"weather",vp:["RAIN","HEAVY"],eq:"Low↑ + 1~3kHz · 축축한 밀도",rv:"High Wet · 긴 Decay",k:"nat",bd:"80–10k",sl:-2.2,st:"S",cf:7,sc:.25,lp:40,lv:-16,f:[3,3,4,5,2],r:[2,3]},
 /* ── 風 ── */
-SWND:{mix:{hp:30,lp:6000,eq:[[80,2,.7],[1000,-1,1]],wd:130,rv:[60,3,22],cmp:"1.5:1 @-24"},i:"🌬️",n:"거센 바람",fam:"風 · 바람",rec:"마찰체(나무·구조물) 필수 · 블림프+퍼 · 직접 풍압 회피",cat:"env",vs:["OCN","MTN","CTY","RFD","FRT"],eq:"광대역 스위프",rv:"공간 크기에 따라 가변",k:"nat",bd:"30–5k",sl:-5.0,st:"Q",cf:9,sc:.40,lp:75,lv:-18,f:[3,4,3,4,2],r:[2,3]},
-RWND:{mix:{hp:200,lp:10000,eq:[[3000,1.5,1],[7000,1,1.2]],wd:115,rv:[35,2,14],cmp:"없음"},i:"🌾",n:"갈대숲 바람",fam:"風 · 바람",rec:"갈대 군락 1~2m · XY · 돌풍 사이 지속부 채집",cat:"env",vs:["RFD"],eq:"Wide Mid · 바스락 질감",rv:"Open Field · Long Pre-Delay",k:"nat",bd:"200–8k",sl:-2.8,st:"Q",cf:11,sc:.25,lp:50,lv:-20,f:[4,5,4,3,3],r:[2,1]},
-BUGS:{mix:{hp:2000,lp:10000,eq:[[5000,1,1.2]],wd:120,rv:[40,1.5,10],cmp:"없음"},i:"🐛",n:"풀벌레",fam:"生 · 생물층",rec:"야간 무풍 · 초지 가장자리 · ORTF · 20분 연속 테이크 · 단독 개체 3m 이상 이격",cat:"bio",vs:["FRT","RFD","MTN"],vtm:["NT","DWN"],vt:["COOL","WARM","HOT"],eq:"3~8kHz · 야간 고음 합창(여치·귀뚜라미 포함)",rv:"Open · 넓은 들판 느낌",k:"nat",bd:"3–8k",sl:-0.9,st:"S",cf:6,sc:.30,lp:25,lv:-21,f:[5,4,3,3,3],r:[1,1]},
-FROG:{mix:{hp:300,lp:5000,eq:[[800,1,1]],wd:110,rv:[30,1.8,14],cmp:"없음"},i:"🐸",n:"개구리",fam:"生 · 생물층",rec:"습지·논 · 야간 · 합창 절정 대기 · 수면 반사 살리기",cat:"bio",vs:["FRT","RFD"],vtm:["NT","DWN"],vt:["WARM","HOT"],eq:"400Hz~3kHz · 습지 합창",rv:"Open · 수면 반사",k:"nat",bd:"400–3k",sl:-2.0,st:"Q",cf:12,sc:.35,lp:40,lv:-22,f:[3,4,2,2,2],r:[3,2]},
-CCDA:{mix:{hp:1500,lp:8000,eq:[[4000,-2,1]],wd:105,rv:[15,1,8],cmp:"3:1 @-18"},i:"🪲",n:"매미",fam:"生 · 생물층",rec:"한낮 · 나무 5~10m · 과입력 주의 · 단일 개체 회피",cat:"bio",vs:["FRT","MTN","CTY","RFD"],vtm:["AM","PM"],vt:["WARM","HOT"],eq:"2~6kHz · V자형 강렬 진동",rv:"Short · 밀착감",k:"nat",bd:"2–6k",sl:-1.2,st:"S",cf:5,sc:.25,lp:20,lv:-20,f:[1,2,2,4,1],r:[2,5]},
-BRDL:{mix:{hp:1500,lp:10000,eq:[[3500,1,1]],wd:125,rv:[60,2.5,20],cmp:"없음"},i:"🐦",n:"새소리층",fam:"生 · 생물층",rec:"일출 전후 · 숲 안쪽 · ORTF/A-B · 원경 유지(근접 금지)",cat:"bio",vs:["FRT","RFD","MTN","CTY"],vtm:["DWN","AM","PM"],vt:["COOL","WARM","HOT"],eq:"2~8kHz · 원경 다중 지저귐",rv:"Long Pre-D · 숲 확산",k:"nat",bd:"2–8k",sl:-1.5,st:"Q",cf:13,sc:.30,lp:60,lv:-22,f:[2,3,3,2,3],r:[3,3]},
+SWND:{mix:{hp:30,lp:6000,eqL:["바람 몸통","윙윙거림 제거"],eq:[[80,2,.7],[1000,-1,1]],wd:130,rv:[60,3,22],cmp:"1.5:1 · Thr -24dB · Atk 40ms · Rel Auto"},i:"🌬️",n:"거센 바람",fam:"風 · 바람",rec:"바람 자체는 소리가 없다 — 나무·풀·구조물을 스치는 소리를 잡는 것. 방풍 블림프+털커버 필수. 마이크에 바람이 직접 닿지 않게",cat:"env",vs:["OCN","MTN","CTY","RFD","FRT"],eq:"광대역 스위프",rv:"공간 크기에 따라 가변",k:"nat",bd:"30–5k",sl:-5.0,st:"Q",cf:9,sc:.40,lp:75,lv:-14,f:[3,4,3,4,2],r:[2,3]},
+RWND:{mix:{hp:200,lp:10000,eqL:["바스락 질감","잎 스침 광택"],eq:[[3000,1.5,1],[7000,1,1.2]],wd:115,rv:[35,2,14],cmp:"불필요 — 그대로 둔다"},i:"🌾",n:"갈대숲 바람",fam:"風 · 바람",rec:"갈대 군락에서 1~2m. XY 교차. 돌풍 말고 고르게 부는 구간을 모은다",cat:"env",vs:["RFD"],eq:"Wide Mid · 바스락 질감",rv:"Open Field · Long Pre-Delay",k:"nat",bd:"200–8k",sl:-2.8,st:"Q",cf:11,sc:.25,lp:50,lv:-14,f:[4,5,4,3,3],r:[2,1]},
+BUGS:{mix:{hp:2000,lp:10000,eqL:["합창 존재감"],eq:[[5000,1,1.2]],wd:120,rv:[40,1.5,10],cmp:"불필요 — 그대로 둔다"},i:"🐛",n:"풀벌레",fam:"生 · 생물층",rec:"밤·무풍·풀밭 가장자리. 한 마리가 튀지 않게 3m 이상 떨어져 전체 합창을 20분 연속으로",cat:"bio",vs:["FRT","RFD","MTN"],vtm:["NT","DWN"],vt:["COOL","WARM","HOT"],eq:"3~8kHz · 야간 고음 합창(여치·귀뚜라미 포함)",rv:"Open · 넓은 들판 느낌",k:"nat",bd:"3–8k",sl:-0.9,st:"S",cf:6,sc:.30,lp:25,lv:-21,f:[5,4,3,3,3],r:[1,1]},
+FROG:{mix:{hp:300,lp:5000,eqL:["울음 몸통"],eq:[[800,1,1]],wd:110,rv:[30,1.8,14],cmp:"불필요 — 그대로 둔다"},i:"🐸",n:"개구리",fam:"生 · 생물층",rec:"논·습지, 밤. 합창이 절정일 때까지 기다렸다 녹음. 물 반사음도 같이",cat:"bio",vs:["FRT","RFD"],vtm:["NT","DWN"],vt:["WARM","HOT"],eq:"400Hz~3kHz · 습지 합창",rv:"Open · 수면 반사",k:"nat",bd:"400–3k",sl:-2.0,st:"Q",cf:12,sc:.35,lp:40,lv:-14,f:[3,4,2,2,2],r:[3,2]},
+CCDA:{mix:{hp:1500,lp:8000,eqL:["쨍한 자극 완화"],eq:[[4000,-2,1]],wd:105,rv:[15,1,8],cmp:"3:1 · Thr -18dB · Atk 10ms · Rel Auto"},i:"🪲",n:"매미",fam:"生 · 생물층",rec:"한낮, 매미 붙은 나무에서 5~10m. 소리가 매우 커서 입력 게인 낮게. 한 마리만 크게 잡히면 자리 이동",cat:"bio",vs:["FRT","MTN","CTY","RFD"],vtm:["AM","PM"],vt:["WARM","HOT"],eq:"2~6kHz · V자형 강렬 진동",rv:"Short · 밀착감",k:"nat",bd:"2–6k",sl:-1.2,st:"S",cf:5,sc:.25,lp:20,lv:-22,f:[1,2,2,4,1],r:[2,5]},
+BRDL:{mix:{hp:1500,lp:10000,eqL:["지저귐 또렷하게"],eq:[[3500,1,1]],wd:125,rv:[60,2.5,20],cmp:"불필요 — 그대로 둔다"},i:"🐦",n:"새소리층",fam:"生 · 생물층",rec:"해뜨기 전후 1시간, 숲 안쪽. 특정 새에 다가가지 말고 멀리서 여러 마리가 섞인 층으로",cat:"bio",vs:["FRT","RFD","MTN","CTY"],vtm:["DWN","AM","PM"],vt:["COOL","WARM","HOT"],eq:"2~8kHz · 원경 다중 지저귐",rv:"Long Pre-D · 숲 확산",k:"nat",bd:"2–8k",sl:-1.5,st:"Q",cf:13,sc:.30,lp:60,lv:-14,f:[2,3,3,2,3],r:[3,3]},
 /* ── 火·地 ── */
-FIRE:{mix:{hp:60,lp:9000,eq:[[150,2,.8],[2500,1,1]],wd:90,rv:[10,.8,6],cmp:"2:1 @-22"},i:"🔥",n:"모닥불",fam:"火·地 · 불과 땅",rec:"50~80cm · 저역 기저 + 파열 한 테이크로 · 장작 마른 것 · 10분 이상",cat:"env",vs:["FRT","MTN","CAV","OCN","IND","RFD"],eq:"Low 기저 + Mid 타닥 파열",rv:"공간에 따라 가변",k:"nat",bd:"80–7k",sl:-3.0,st:"Q",cf:13,sc:.20,lp:45,lv:-18,f:[4,4,4,3,4],r:[2,1]},
-VOLC:{mix:{hp:20,lp:300,eq:[[45,3,.7]],wd:60,rv:[80,6,10],cmp:"2:1 @-20"},i:"🌋",n:"화산 럼블",fam:"火·地 · 불과 땅",rec:"실측 불가 · 라이브러리/합성 전제 · 20~200Hz 서브 레이어로",cat:"env",vs:["MTN","CAV"],eq:"20~200Hz 지속 공명 · 초저역",rv:"Very Long · 대지 전파",k:"lib",bd:"20–200",sl:-7.0,st:"Q",cf:8,sc:.50,lp:120,lv:-16,f:[3,4,2,2,1],r:[2,3]}},
+FIRE:{mix:{hp:60,lp:9000,eqL:["화염 몸통","타닥 파열감"],eq:[[150,2,.8],[2500,1,1]],wd:90,rv:[10,.8,6],cmp:"2:1 · Thr -22dB · Atk 30ms · Rel Auto"},i:"🔥",n:"모닥불",fam:"火·地 · 불과 땅",rec:"불에서 50~80cm. 마른 장작. 타닥 파열음과 낮은 화염음이 같이 들어가게 10분 이상",cat:"env",vs:["FRT","MTN","CAV","OCN","IND","RFD"],eq:"Low 기저 + Mid 타닥 파열",rv:"공간에 따라 가변",k:"nat",bd:"80–7k",sl:-3.0,st:"Q",cf:13,sc:.20,lp:45,lv:-10,f:[4,4,4,3,4],r:[2,1]},
+VOLC:{mix:{hp:20,lp:300,eqL:["대지 진동감"],eq:[[45,3,.7]],wd:60,rv:[80,6,10],cmp:"2:1 · Thr -20dB · Atk 30ms · Rel Auto"},i:"🌋",n:"화산 럼블",fam:"火·地 · 불과 땅",rec:"실제 녹음 불가 — 라이브러리 구매(BOOM 등) 또는 신스 저역 노이즈로 제작",cat:"env",vs:["MTN","CAV"],eq:"20~200Hz 지속 공명 · 초저역",rv:"Very Long · 대지 전파",k:"lib",bd:"20–200",sl:-7.0,st:"Q",cf:8,sc:.50,lp:120,lv:-12,f:[3,4,2,2,1],r:[2,3]}},
 point:{
-DROP:{mix:{hp:1500,lp:8000,eq:[[3500,1,1.2]],wd:100,rv:[30,2.5,35],cmp:"없음"},i:"💧",n:"물방울",rec:"동굴·욕실 등 공명체 · 근접 30cm · 개별 타격 20회 이상",vtime:["DWN","AM","PM","NT"],vspace:["CAV","IND","FRT","MTN"],vtemp:["COLD","COOL","WARM","HOT"],eq:"2~5kHz · 맑은 포인트",rv:"공간 비례 Echo",k:"nat",bd:"2–5k",dn:20,at:2,cf:17,lv:-22,f:[3,5,4,2,3],r:[3,2]},
-THDR:{mix:{hp:20,lp:1200,eq:[[60,2,.7]],wd:110,rv:[120,8,40],cmp:"리미터 -6 필수"},i:"🌩️",n:"천둥",rec:"실측 난이도 최상 · 원경 대기 · 저역 헤드룸 크게",vtime:["DWN","AM","PM","NT"],vspace:["CTY","FRT","OCN","MTN","RFD"],vtemp:["COLD","COOL","WARM","HOT"],vp:["RAIN","HEAVY"],eq:"극저역 공명 + 돌발성",rv:"매우 긴 Decay · 잔향 울림",k:"nat",bd:"20–800",dn:0.5,at:30,cf:18,lv:-12,f:[1,2,1,1,1],r:[4,5]},
-BIRD:{mix:{hp:800,lp:9000,eq:[],wd:100,rv:[20,1.2,15],cmp:"없음"},i:"🐦",n:"새울음 단발",rec:"근접 개체 지향 · 샷건 · 종별 폴더 분리 저장",vtime:["DWN","AM","PM"],vspace:["CTY","FRT","RFD","MTN","OCN"],vtemp:["COLD","COOL","WARM","HOT"],eq:"1~6kHz · 근접 단발 지저귐",rv:"Short · 가까운 거리감",k:"nat",bd:"1–6k",dn:8,at:6,cf:14,lv:-22,f:[2,3,2,1,3],r:[3,3]},
-LEAF:{mix:{hp:250,lp:11000,eq:[],wd:90,rv:[5,.4,5],cmp:"없음"},i:"🍂",n:"낙엽 밟기",rec:"마른 낙엽 · 발밑 40cm · 20보 이상 · 옷 스침 배제",vtime:["DWN","AM","PM","NT"],vspace:["FRT","MTN","RFD","CTY"],vtemp:["COLD","COOL","WARM"],eq:"High-Mid 바스락 · Dry",rv:"짧은 · Dry 질감",k:"nat",bd:"300–9k",dn:60,at:4,cf:14,lv:-20,f:[2,3,3,2,2],r:[4,3]},
-SNWK:{mix:{hp:150,lp:6000,eq:[],wd:90,rv:[3,.3,4],cmp:"없음"},i:"👣",n:"눈 밟기",rec:"설질별(신설/다짐) 각각 테이크 · 발밑 40cm",vtime:["DWN","AM","PM","NT"],vspace:["FRT","MTN","CTY","RFD"],vtemp:["COLD","COOL"],vp:["DRY","CLD"],eq:"Mid 뽀드득 · 압축감",rv:"극도로 짧은 · 먹먹함",k:"nat",bd:"200–5k",dn:55,at:5,cf:15,lv:-20,f:[2,3,3,2,2],r:[4,3]},
-GRVL:{mix:{hp:300,lp:12000,eq:[],wd:90,rv:[5,.4,5],cmp:"없음"},i:"🪨",n:"자갈 밟기",rec:"입자 크기별 2종 · 발밑 40cm · 마찰/파쇄 분리",vtime:["DWN","AM","PM","NT"],vspace:["MTN","FRT","RFD","CTY","OCN"],vtemp:["COLD","COOL","WARM","HOT"],eq:"400Hz~10k · 파쇄 마찰",rv:"Short · Dry",k:"nat",bd:"400–10k",dn:55,at:3,cf:16,lv:-22,f:[2,2,3,2,2],r:[4,3]},
-BRCH:{mix:{hp:400,lp:10000,eq:[],wd:90,rv:[15,1,10],cmp:"없음"},i:"🌿",n:"나뭇가지",rec:"굵기별 3종 · 근접 · 스냅 단발 다수",vtime:["DWN","AM","PM","NT"],vspace:["FRT","MTN","RFD"],vtemp:["COLD","COOL","WARM","HOT"],eq:"500Hz~8k · 파열 스냅",rv:"Short · 숲 흡음",k:"nat",bd:"500–8k",dn:3,at:2,cf:19,lv:-26,f:[1,2,2,1,2],r:[3,4]}}
+DROP:{mix:{hp:1500,lp:8000,eqL:["물방울 명료도"],eq:[[3500,1,1.2]],wd:100,rv:[30,2.5,35],cmp:"불필요 — 그대로 둔다"},i:"💧",n:"물방울",rec:"욕실·동굴처럼 울리는 곳. 떨어지는 지점에서 30cm. 한 방울씩 20회 이상",vtime:["DWN","AM","PM","NT"],vspace:["CAV","IND","FRT","MTN"],vtemp:["COLD","COOL","WARM","HOT"],eq:"2~5kHz · 맑은 포인트",rv:"공간 비례 Echo",k:"nat",bd:"2–5k",dn:20,at:2,cf:17,lv:-22,f:[3,5,4,2,3],r:[3,2]},
+THDR:{mix:{hp:20,lp:1200,eqL:["천둥 몸통"],eq:[[60,2,.7]],wd:110,rv:[120,8,40],cmp:"컴프 대신 Limiter · Ceiling -6dBFS"},i:"🌩️",n:"천둥",rec:"예측 불가라 실측 최난이도. 비 오는 날 처마 밑 대기, 입력 게인 아주 낮게. 라이브러리 병행 추천",vtime:["DWN","AM","PM","NT"],vspace:["CTY","FRT","OCN","MTN","RFD"],vtemp:["COLD","COOL","WARM","HOT"],vp:["RAIN","HEAVY"],eq:"극저역 공명 + 돌발성",rv:"매우 긴 Decay · 잔향 울림",k:"nat",bd:"20–800",dn:0.5,at:30,cf:18,lv:-12,f:[1,2,1,1,1],r:[4,5]},
+BIRD:{mix:{hp:800,lp:9000,eq:[],wd:100,rv:[20,1.2,15],cmp:"불필요 — 그대로 둔다"},i:"🐦",n:"새울음 단발",rec:"한 마리를 조준. 지향성 샷건 마이크. 새 종류별로 폴더 분리 저장",vtime:["DWN","AM","PM"],vspace:["CTY","FRT","RFD","MTN","OCN"],vtemp:["COLD","COOL","WARM","HOT"],eq:"1~6kHz · 근접 단발 지저귐",rv:"Short · 가까운 거리감",k:"nat",bd:"1–6k",dn:8,at:6,cf:14,lv:-22,f:[2,3,2,1,3],r:[3,3]},
+LEAF:{mix:{hp:250,lp:11000,eq:[],wd:90,rv:[5,.4,5],cmp:"불필요 — 그대로 둔다"},i:"🍂",n:"낙엽 밟기",rec:"바싹 마른 낙엽 위를 걷기. 마이크는 발에서 40cm. 20걸음 이상. 바지 스치는 소리 주의",vtime:["DWN","AM","PM","NT"],vspace:["FRT","MTN","RFD","CTY"],vtemp:["COLD","COOL","WARM"],eq:"High-Mid 바스락 · Dry",rv:"짧은 · Dry 질감",k:"nat",bd:"300–9k",dn:60,at:4,cf:14,lv:-20,f:[2,3,3,2,2],r:[4,3]},
+SNWK:{mix:{hp:150,lp:6000,eq:[],wd:90,rv:[3,.3,4],cmp:"불필요 — 그대로 둔다"},i:"👣",n:"눈 밟기",rec:"갓 내린 눈과 다져진 눈 각각(소리가 다름). 발에서 40cm",vtime:["DWN","AM","PM","NT"],vspace:["FRT","MTN","CTY","RFD"],vtemp:["COLD","COOL"],vp:["DRY","CLD"],eq:"Mid 뽀드득 · 압축감",rv:"극도로 짧은 · 먹먹함",k:"nat",bd:"200–5k",dn:55,at:5,cf:15,lv:-20,f:[2,3,3,2,2],r:[4,3]},
+GRVL:{mix:{hp:300,lp:12000,eq:[],wd:90,rv:[5,.4,5],cmp:"불필요 — 그대로 둔다"},i:"🪨",n:"자갈 밟기",rec:"굵은 자갈·잔자갈 두 종류. 발에서 40cm. 걷기와 비비기 따로",vtime:["DWN","AM","PM","NT"],vspace:["MTN","FRT","RFD","CTY","OCN"],vtemp:["COLD","COOL","WARM","HOT"],eq:"400Hz~10k · 파쇄 마찰",rv:"Short · Dry",k:"nat",bd:"400–10k",dn:55,at:3,cf:16,lv:-22,f:[2,2,3,2,2],r:[4,3]},
+BRCH:{mix:{hp:400,lp:10000,eq:[],wd:90,rv:[15,1,10],cmp:"불필요 — 그대로 둔다"},i:"🌿",n:"나뭇가지",rec:"마른 가지 얇은 것·중간·굵은 것 3종. 가까이서. 뚝 부러뜨리는 단발을 여러 개",vtime:["DWN","AM","PM","NT"],vspace:["FRT","MTN","RFD"],vtemp:["COLD","COOL","WARM","HOT"],eq:"500Hz~8k · 파열 스냅",rv:"Short · 숲 흡음",k:"nat",bd:"500–8k",dn:3,at:2,cf:19,lv:-26,f:[1,2,2,1,2],r:[3,4]}}
 };
 
 const FN=["수면","명상","집중","마스킹","태교"];
 const RK=["루프인지","각성"];
 const STN={S:"정상",Q:"준정상",T:"트랜지언트"};
+const fq=z=>z>=1000?(z/1000).toFixed(z%1000?1:0)+"k":z;
+const eqS=v=>v.mix.eq.length?v.mix.eq.map(e=>`${e[1]>0?"+":""}${e[1]}dB @${fq(e[0])} Q${e[2]}`).join(" · "):"플랫";
+const eqLines=v=>v.mix.eq.length?v.mix.eq.map((e,i)=>`&nbsp;&nbsp;· <b>${fq(e[0])}Hz ${e[1]>0?"+":""}${e[1]}dB Q${e[2]}</b> — ${(v.mix.eqL||[])[i]||"보정"}`).join("<br>"):"&nbsp;&nbsp;· 보정 불필요 — 필터만으로 충분";
 const FAMC={"水 · 물": "#2980B9", "雨 · 비": "#5DADE2", "風 · 바람": "#16A085", "生 · 생물층": "#8E44AD", "火·地 · 불과 땅": "#E67E22", "톤 · 공간 바닥": "#7F8C8D"};
 
 const COL={p:"#1ABC9C",t:"#E67E22",tm:"#8E44AD",sp:"#C0392B",ob:"#2C3E50",pt:"#16A085"};
@@ -172,6 +184,7 @@ const P_T_BAD={HEAVY:["COLD"]};
 let S={p:"RAIN",t:"COOL",tm:"PM",sp:"FRT",ob:"HRIN",pt:[]};
 let tab="source"; // source | select | result | matrix | logic
 let MX={g:"object",nat:true,sort:"f0",dir:-1};
+let SRX={};function srx(k){SRX[k]=!SRX[k];render()}
 function mxSet(k,v){if(k==="sort"&&MX.sort===v){MX.dir*=-1}else if(k==="sort"){MX.sort=v;MX.dir=-1}else{MX[k]=v}render()}
 function mxToggleNat(){MX.nat=!MX.nat;render()}
 function mxScore(v){const t=MX.sort;if(t==="1f")return -Math.abs((v.sl??-3)+3);if(t.startsWith("f"))return v.f[+t[1]];if(t.startsWith("r"))return -v.r[+t[1]];if(t==="dn")return v.dn??0;if(t==="cf")return v.cf??0;return 0}
@@ -194,7 +207,7 @@ const fn=`${S.p}_${S.t}_${S.tm}_${S.sp}_${S.ob}${pts}.wav`;
 
 // Tabs
 document.getElementById('tabs').innerHTML=
-[["source","🎧 원본"],["select","🎹 선택"],["result","🎛️ 결과"],["matrix","📊 매트릭스"],["logic","🔍 로직"]].map(([k,l])=>
+[["source","🎧 원본"],["select","🎹 선택"],["result","🎛️ 결과"],["matrix","📊 매트릭스"]].map(([k,l])=>
 `<div class="tab ${tab===k?'a':''}" onclick="setTab('${k}')">${l}</div>`).join('');
 
 let h='';
@@ -211,24 +224,38 @@ if(!bad&&!vo.length)h+=`<div class="warn">⚠️ <strong>${sp.i}${sp.n} + ${pr.i
 // ── TAB: SOURCE ──
 if(tab==="source"){
 const bg=Object.entries(D.object), pt=Object.entries(D.point);
-h+=`<div class="sr-int"><h3>🎧 녹음 원본 목록</h3><p><b>배경음</b> — 개별 이벤트가 식별되지 않음 · 무한 루프 가능 · 공간의 바닥을 만듦<br><b>포인트음</b> — 이벤트가 식별됨 · 위치와 시각을 지정함 · 배경 위에 찍힘<br>이 ${bg.length+pt.length}개가 전부. 나머지는 전부 이걸 변형·믹싱해서 만든다.</p></div>`;
+h+=`<div class="sr-int"><h3>🎧 녹음 원본 목록</h3><p><b>배경음</b> — 개별 이벤트가 식별되지 않음 · 무한 루프 가능 · 공간의 바닥을 만듦<br><b>포인트음</b> — 이벤트가 식별됨 · 위치와 시각을 지정함 · 배경 위에 찍힘<br>이 ${bg.length+pt.length}개가 전부. 나머지는 전부 이걸 변형·믹싱해서 만든다.<br><br>모든 수치는 <b>Logic Pro 기본 플러그인</b> 기준 · 플러그인은 <b>인서트 위→아래 순서</b>대로 걸 것. 행을 탭하면 작업 순서가 열린다.</p></div>`;
 
 h+=`<div class="card"><div class="card-head">🌊 배경음<span>${bg.length}종 · 루프 소스</span></div>`;
 let ci=null;
 bg.forEach(([k,v],idx)=>{
   if(v.fam!==ci){ci=v.fam;h+=`<div class="cat-label" style="color:${FAMC[ci]};background:${FAMC[ci]}10;border-left:2px solid ${FAMC[ci]}">${ci}</div>`}
-  h+=`<div class="sr-row"><span class="sr-no">${String(idx+1).padStart(2,"0")}</span><span class="sr-i">${v.i}</span><div class="sr-b">
-  <div class="sr-h"><span class="sr-n">${v.n}</span><span class="sr-tag" style="color:${CC[v.cat]};background:${CC[v.cat]}15">${CN[v.cat]}</span>${v.k==='lib'?`<span class="sr-tag" style="color:#E67E22;background:#E67E2215">라이브러리</span>`:``}</div>
+  const ex=SRX[k];
+  h+=`<div class="sr-row" onclick="srx('${k}')"><span class="sr-no">${String(idx+1).padStart(2,"0")}</span><span class="sr-i">${v.i}</span><div class="sr-b">
+  <div class="sr-h"><span class="sr-n">${v.n}</span><span class="sr-tag" style="color:${CC[v.cat]};background:${CC[v.cat]}15">${CN[v.cat]}</span>${v.k==='lib'?`<span class="sr-tag" style="color:#E67E22;background:#E67E2215">라이브러리</span>`:``}<span class="sr-more">${ex?'▲ 접기':'▼ 정리 수치'}</span></div>
   <div class="sr-m">대역 <b>${v.bd}</b> · 정상성 <b>${STN[v.st]}</b> · 최소 루프 <b>${v.lp}s</b></div>
-  <div class="sr-r">🎙️ ${v.rec}</div></div></div>`});
+  ${ex?`<div class="sr-det">
+  🎙️ <b>녹음</b> — ${v.rec}<br><br>
+  <b>Logic 인서트 순서 (위→아래): Channel EQ → Compressor</b><br><br>
+  <span class="stp">1</span><b>필터</b> (Channel EQ 왼쪽 끝 Low Cut · 오른쪽 끝 High Cut 켜기)<br>&nbsp;&nbsp;· Low Cut <b>${fq(v.mix.hp)}Hz</b> · 기울기 12dB/oct — 밑에 깔린 잡진동 제거<br>&nbsp;&nbsp;· High Cut <b>${fq(v.mix.lp)}Hz</b> · 12dB/oct — 대역 밖 히스 제거<br>&nbsp;&nbsp;· 소리가 얇아지면 High Cut을 2~3kHz 올린다<br>
+  <span class="stp">2</span><b>EQ</b> (같은 Channel EQ에 벨 밴드 추가)<br>${eqLines(v)}<br>&nbsp;&nbsp;· 밴드마다 켰다 껐다 비교 — 원본보다 안 좋으면 끈다<br>
+  <span class="stp">3</span><b>컴프</b> (Compressor · Platinum Digital)<br>&nbsp;&nbsp;· <b>${v.mix.cmp}</b><br>&nbsp;&nbsp;· GR 미터가 <b>2dB 이내</b>만 움직이게 — 더 걸리면 Thr을 올린다<br>
+  <span class="stp">4</span><b>정리</b> (순서대로)<br>&nbsp;&nbsp;① 잡음 구간(말소리·차·터치노이즈) 잘라내기<br>&nbsp;&nbsp;② 피크 노멀라이즈 <b>-6dBFS</b> (Functions→Normalize)<br>&nbsp;&nbsp;③ 루프 만들기: 끝-시작 <b>2~4초</b> 겹쳐 Equal Power 크로스페이드<br>&nbsp;&nbsp;④ 최소 <b>${v.lp}초</b> 이상 확보 후 저장</div>`:``}</div></div>`});
 h+=`</div>`;
 
 h+=`<div class="card"><div class="card-head" style="color:#16A085">✨ 포인트음<span>${pt.length}종 · 단발 소스</span></div>`;
 pt.forEach(([k,v],idx)=>{
-  h+=`<div class="sr-row"><span class="sr-no">${String(idx+1).padStart(2,"0")}</span><span class="sr-i">${v.i}</span><div class="sr-b">
-  <div class="sr-h"><span class="sr-n">${v.n}</span></div>
+  const ex=SRX["p_"+k];
+  h+=`<div class="sr-row" onclick="srx('p_${k}')"><span class="sr-no">${String(idx+1).padStart(2,"0")}</span><span class="sr-i">${v.i}</span><div class="sr-b">
+  <div class="sr-h"><span class="sr-n">${v.n}</span><span class="sr-more">${ex?'▲ 접기':'▼ 정리 수치'}</span></div>
   <div class="sr-m">대역 <b>${v.bd}</b> · 밀도 <b>${v.dn}</b>/분 · 어택 <b>${v.at}</b>ms</div>
-  <div class="sr-r">🎙️ ${v.rec}</div></div></div>`});
+  ${ex?`<div class="sr-det">
+  🎙️ <b>녹음</b> — ${v.rec}<br><br>
+  <b>Logic 인서트 순서: Channel EQ → ${v.mix.cmp.includes("Limiter")?"Limiter":"Compressor"}</b><br><br>
+  <span class="stp">1</span><b>필터</b> — Low Cut <b>${fq(v.mix.hp)}Hz</b> · High Cut <b>${fq(v.mix.lp)}Hz</b> · 각 12dB/oct<br>
+  <span class="stp">2</span><b>EQ</b><br>${eqLines(v)}<br>
+  <span class="stp">3</span><b>다이내믹</b> — <b>${v.mix.cmp}</b><br>
+  <span class="stp">4</span><b>정리</b><br>&nbsp;&nbsp;① 피크 노멀라이즈 <b>-6dBFS</b><br>&nbsp;&nbsp;② 단발마다 파일 분리 · 소리 시작 앞 <b>50ms</b> 여백 두고 컷<br>&nbsp;&nbsp;③ 같은 소리 3~5개 변형(버전) 확보 — 반복 티 방지</div>`:``}</div></div>`});
 h+=`</div>`;
 h+=`<div class="mx-hint">녹음이 끝나면 → <b>🎹 선택</b>에서 조건을 걸고 → <b>🎛️ 결과</b>에서 믹싱 처방을 받는다.</div>`;
 }
@@ -263,35 +290,43 @@ h+=mkS('pt','포인트 사운드',6,D.point,'g3',COL.pt,'pt');
 if(tab==="result"&&!bad&&vo.includes(S.ob)){
 h+=`<div class="fname-bar"><div class="fname-label">FILE NAME</div><div class="fname-text">${fn}</div><button class="copy-btn" id="cpb" onclick="cpFN()">📋 파일명 복사</button></div>`;
 
-// 믹스 시트 — 원본 기준
-h+=`<div class="card"><div class="card-head">🎚️ 믹스 시트<span>배경 1 + 포인트 ${S.pt.length}</span></div>`;
-h+=`<div class="sr-row"><span class="sr-no">BG</span><span class="sr-i">${ob.i}</span><div class="sr-b">
-<div class="sr-h"><span class="sr-n">${ob.n}</span><span class="sr-tag" style="color:${CC[ob.cat]};background:${CC[ob.cat]}15">${CN[ob.cat]}</span></div>
-<div class="sr-m">레벨 <b>${ob.lv}dB</b> · 루프 <b>${ob.lp}s</b> 이상 · 대역 <b>${ob.bd}</b> · 정상성 <b>${STN[ob.st]}</b></div></div></div>`;
-if(!S.pt.length)h+=`<div class="sr-row"><span class="sr-no">PT</span><div class="sr-b"><div class="sr-r" style="color:#aaa">포인트음 없음 — 배경만으로 성립하는 조합.</div></div></div>`;
-S.pt.forEach(k=>{const p=D.point[k];h+=`<div class="sr-row"><span class="sr-no">PT</span><span class="sr-i">${p.i}</span><div class="sr-b">
-<div class="sr-h"><span class="sr-n">${p.n}</span></div>
-<div class="sr-m">레벨 <b>${p.lv}dB</b> · 밀도 <b>${p.dn}</b>/분 · 어택 <b>${p.at}</b>ms</div></div></div>`});
-const hd=S.pt.length?Math.min(...S.pt.map(k=>D.point[k].lv))-ob.lv:null;
-if(hd!==null)h+=`<div class="sr-row"><span class="sr-no">Δ</span><div class="sr-b"><div class="sr-r">배경 대비 포인트 최대 <b>${hd>0?'+':''}${hd}dB</b> — ${hd>=0?'⚠️ 포인트가 배경보다 큼. 배경이 밀림':'포인트가 배경 아래. 정상'}</div></div></div>`;
-h+=`</div>`;
-
-const fq=z=>z>=1000?(z/1000).toFixed(z%1000?1:0)+"k":z;
-const eqS=v=>v.mix.eq.length?v.mix.eq.map(e=>`${e[1]>0?"+":""}${e[1]}dB @${fq(e[0])} Q${e[2]}`).join(" · "):"플랫";
-const rvS=(v,sm)=>{const r=v.mix.rv;const pre=Math.round(r[0]+sm[0]),dec=Math.min(r[1]*sm[1],8).toFixed(1),wet=Math.max(0,Math.round(r[2]+sm[2]));return `Pre ${pre}ms · Decay ${dec}s · Wet ${wet}%`};
+// ── 2단계: 공간 믹스 (1단계 정리 완료본 기준) ──
 const sm=sp.rvn;
+const rvS=(v)=>{const r=v.mix.rv;return `Pre ${Math.round(r[0]+sm[0])}ms · Decay ${Math.min(r[1]*sm[1],8).toFixed(1)}s · Wet ${Math.max(0,Math.round(r[2]+sm[2]))}%`};
 
-h+=`<div class="card"><div class="card-head">🎚️ 소스 처방 (수치)<span>공간=${sp.n} 잔향 반영</span></div>`;
-const srcs=[["BG",ob]].concat(S.pt.map(k=>["PT",D.point[k]]));
-srcs.forEach(([tag,v])=>{h+=`<div class="mx-row">
-<div class="mx-t"><span class="mx-n">${v.i} ${v.n}</span><span class="mx-sc" style="color:#16A085">${v.lv}dB</span></div>
-<div class="mx-ph">HPF <b>${fq(v.mix.hp)}</b> · LPF <b>${fq(v.mix.lp)}</b> · EQ <b>${eqS(v)}</b><br>Width <b>${v.mix.wd}%</b> · Comp <b>${v.mix.cmp}</b><br>Reverb <b>${rvS(v,sm)}</b></div></div>`});
+h+=`<div class="mx-hint" style="padding-top:6px">⚠️ 아래 수치는 <b>1단계 원본 정리(원본 탭)가 끝난 파일</b> 기준. 소스 EQ는 여기서 다시 만지지 않는다 — 이중 적용 시 왜곡. 배경 페이더 값은 크레스트·대역 보정을 거쳐 <b>어느 배경을 골라도 체감 음량이 같도록</b> 산정됨(지각 기준 -30 ±1). 화산 럼블만 예외 — 초저역이라 지각 등가로 올리면 스피커가 위험, 의도적으로 낮게 둠.</div>`;
+
+h+=`<div class="card"><div class="card-head">🎚️ 2단계 · 공간 믹스<span>배경 1 + 포인트 ${S.pt.length} · 탭하면 수치</span></div>`;
+const srcs=[["bg",ob,"BG"]].concat(S.pt.map(k=>["pt_"+k,D.point[k],"PT"]));
+srcs.forEach(([id,v,tag])=>{const ex=SRX["r_"+id];
+h+=`<div class="sr-row" onclick="srx('r_${id}')"><span class="sr-no">${tag}</span><span class="sr-i">${v.i}</span><div class="sr-b">
+<div class="sr-h"><span class="sr-n">${v.n}</span><span class="mx-sc" style="color:#16A085">${v.lv}dB</span><span class="sr-more">${ex?'▲':'▼'}</span></div>
+${ex?`<div class="sr-det">
+<span class="stp">A</span><b>레벨</b> — 채널 볼륨 <b>페이더</b>를 <b>${v.lv}dB</b>로${tag==="PT"?` (배경보다 <b>${Math.abs(v.lv-ob.lv)}dB 작게</b>)`:` — 이게 믹스의 기준선`}<br>&nbsp;&nbsp;· 플러그인 게인이 아니라 페이더로 조절<br>
+<span class="stp">B</span><b>정위</b> — Direction Mixer 삽입 · Spread <b>${(v.mix.wd/100).toFixed(2)}</b>${tag==="PT"?`<br>&nbsp;&nbsp;· Pan 노브로 좌우 자유 배치(L30~R30) · 등장 위치·간격은 불규칙하게`:`<br>&nbsp;&nbsp;· Pan은 센터 고정 — 배경은 움직이지 않는다`}<br>
+<span class="stp">C</span><b>리버브</b> — 인서트 금지, <b>센드</b>로:<br>&nbsp;&nbsp;① Aux 트랙 만들고 <b>ChromaVerb</b> 삽입<br>&nbsp;&nbsp;② Pre-Delay·Decay를 <b>${rvS(v)}</b>의 값으로 <span style="color:#8a9098">(${sp.n} 반영 계산값)</span><br>&nbsp;&nbsp;③ ChromaVerb 안 Dry/Wet은 <b>100% Wet</b> · 잔향 양은 <b>Send 노브</b>로 Wet% 느낌까지<br>
+<span class="stp">D</span><b>EQ — 추가 금지</b>. 1단계 완료본이 입력이다. 음색이 이상하면 여기서 고치지 말고 1단계로 돌아간다</div>`:``}</div></div>`});
+if(!S.pt.length)h+=`<div class="sr-row"><span class="sr-no">PT</span><div class="sr-b"><div class="sr-r" style="color:#aaa">포인트음 없음 — 배경만으로 성립.</div></div></div>`;
 h+=`</div>`;
 
-h+=`<div class="card"><div class="card-head">🎚️ 조건 레이어 보정<span>버스 전체에 적용</span></div>`;
+h+=`<div class="card"><div class="card-head">🎚️ 조건 보정 — 버스에 1회만<span>소스별 중복 금지</span></div>`;
+h+=`<div class="mx-hint" style="padding:8px 13px 0">적용법: 모든 트랙을 <b>Summing 버스(Aux)</b> 하나로 모으고, 그 버스에 <b>Channel EQ 하나</b>만 걸어 아래 포인트를 입력. 각 트랙에 또 걸면 이중 적용.</div>`;
 [["강수 "+pr.n,pr.mx,COL.p],["기온 "+tp.n,tp.mx,COL.t],["시간 "+tm.n,tm.mx,COL.tm],["공간 "+sp.n,`Pre +${sm[0]}ms · Decay ×${sm[1]} · Wet ${sm[2]>=0?"+":""}${sm[2]}%`,COL.sp]].forEach(([l,x,c])=>{
 h+=`<div class="layer"><span class="layer-tag" style="color:${c};background:${c}12">${l}</span><div class="layer-c"><div class="layer-eq">🎚️ ${x}</div></div></div>`});
 h+=`</div>`;
+
+// ── 3단계: 마스터링 (확장형) ──
+{const ex=SRX["mst"];
+h+=`<div class="card"><div class="card-head" onclick="srx('mst')" style="cursor:pointer">🎛️ 3단계 · 마스터링<span>${ex?'▲ 접기':'▼ 탭하면 수치'}</span></div>`;
+if(ex){
+h+=`<div class="mst-row"><span class="stp">0</span><b>체인 순서</b> — Stereo Out 인서트 위→아래:<br><b>Channel EQ → Compressor → Adaptive Limiter → Loudness Meter</b> (순서 바꾸면 결과가 달라진다)</div>`;
+h+=`<div class="mst-row"><span class="stp">1</span><b>버스 EQ</b> (Channel EQ)<br>&nbsp;&nbsp;· Low Cut <b>22Hz</b> · 12dB/oct — 스피커가 못 내는 초저역 정리<br>&nbsp;&nbsp;· 오래 들어 귀가 아프면 High Shelf <b>9kHz -1dB</b><br>&nbsp;&nbsp;· 그 외는 만지지 않는다 — 음색 수정은 2단계의 일</div>`;
+h+=`<div class="mst-row"><span class="stp">2</span><b>글루 컴프</b> (Compressor · Studio VCA)<br>&nbsp;&nbsp;· Ratio <b>2:1</b> · Attack <b>30ms</b> · Release <b>Auto</b><br>&nbsp;&nbsp;· Threshold를 천천히 내려 GR이 <b>1.5~2dB</b> 걸리는 지점에서 멈춤 — 트랙들을 한 덩어리로 붙이는 용도지 누르는 용도가 아니다</div>`;
+h+=`<div class="mst-row"><span class="stp">3</span><b>리미터</b> (Adaptive Limiter)<br>&nbsp;&nbsp;· Out Ceiling <b>-1.0dB</b> · True Peak 감지 ON<br>&nbsp;&nbsp;· GR <b>1.5dB 이내</b> — 그 이상 걸리면 리미터를 세게 만들지 말고 2단계 페이더를 내린다</div>`;
+h+=`<div class="mst-row"><span class="stp">4</span><b>라우드니스 맞추기</b> (Loudness Meter를 보면서)<br>&nbsp;&nbsp;· 트랙 <b>전체를 처음부터 끝까지</b> 재생 → <b>Integrated</b> 값 확인<br>&nbsp;&nbsp;· 목표: 스트리밍(Spotify 등) <b>-16 LUFS</b> / 현장 스피커 재생 <b>-20 LUFS</b> — 마스터 2개 따로 뽑는다<br>&nbsp;&nbsp;· 부족하면 리미터를 더 밀지 말고 컴프 <b>앞에 Gain 플러그인</b>을 끼워 올린다</div>`;
+h+=`<div class="mst-row"><span class="stp">5</span><b>LRA란?</b> — 조용한 부분과 큰 부분의 라우드니스 폭 (Loudness Meter의 <b>Range</b> 값, 단위 LU)<br>&nbsp;&nbsp;· 자연음은 이 오르내림이 곧 콘텐츠 — <b>8 LU 이상</b> 유지<br>&nbsp;&nbsp;· <b>유지법</b>: ① 컴프 GR 2dB 이내 ② 리미터 GR 1.5dB 이내 ③ 볼륨은 압축이 아니라 페이더·게인으로 ④ 재생 후 Range가 8 밑이면 컴프·리미터를 되돌린다</div>`;
+h+=`<div class="mst-row"><span class="stp">6</span><b>내보내기</b> — Bounce(⌘B): PCM WAV · <b>48kHz/24bit</b> · Normalize <b>Off</b><br>&nbsp;&nbsp;· 16bit 필요 시 Dithering: <b>POW-r #2</b> · 파일명 규칙 유지</div>`;}
+h+=`</div>`;}
 
 h+=`<div class="card"><div class="card-head">교체 가능한 배경음<span>${vo.length}종</span></div>`;
 vo.forEach(k=>{const o=D.object[k];const a=k===S.ob;h+=`<div class="li ${a?'a':''}" onclick="pk('ob','${k}')"><div><span class="li-n ${a?'a':''}">${o.i} ${o.n}</span><span class="li-cat" style="color:${CC[o.cat]};background:${CC[o.cat]}15">${CN[o.cat]}</span>${a?'<span class="li-b">● 선택</span>':''}</div><span class="li-c">${o.lv}dB · 루프 ${o.lp}s</span></div>`});
