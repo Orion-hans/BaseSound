@@ -212,11 +212,7 @@ document.getElementById('tabs').innerHTML=
 
 let h='';
 
-// Tags always visible
-h+=`<div class="tags">`;
-[[pr,COL.p],[tp,COL.t],[tm,COL.tm],[sp,COL.sp],[ob,COL.ob]].forEach(([d,c])=>{h+=`<span class="tag" style="color:${c};border-color:${c}33;background:${c}0d">${d.i}${d.n}</span>`});
-S.pt.forEach(k=>{const p=D.point[k];if(p)h+=`<span class="tag" style="color:${COL.pt};border-color:${COL.pt}33;background:${COL.pt}0d">${p.i}${p.n}</span>`});
-h+=`</div>`;
+
 
 if(bad)h+=`<div class="warn">⚠️ <strong>${pr.i}${pr.n} + ${tp.i}${tp.n}</strong> — 불가능한 조합입니다.</div>`;
 if(!bad&&!vo.length)h+=`<div class="warn">⚠️ <strong>${sp.i}${sp.n} + ${pr.i}${pr.n}</strong> — 성립하는 배경음이 없습니다. 이 공간엔 자연음이 존재하지 않는 조건입니다.</div>`;
@@ -224,7 +220,7 @@ if(!bad&&!vo.length)h+=`<div class="warn">⚠️ <strong>${sp.i}${sp.n} + ${pr.i
 // ── TAB: SOURCE ──
 if(tab==="source"){
 const bg=Object.entries(D.object), pt=Object.entries(D.point);
-h+=`<div class="sr-int"><h3>🎧 녹음 원본 목록</h3><p><b>배경음</b> — 개별 이벤트가 식별되지 않음 · 무한 루프 가능 · 공간의 바닥을 만듦<br><b>포인트음</b> — 이벤트가 식별됨 · 위치와 시각을 지정함 · 배경 위에 찍힘<br>이 ${bg.length+pt.length}개가 전부. 나머지는 전부 이걸 변형·믹싱해서 만든다.<br><br>모든 수치는 <b>Logic Pro 기본 플러그인</b> 기준 · 플러그인은 <b>인서트 위→아래 순서</b>대로 걸 것. 행을 탭하면 작업 순서가 열린다.</p></div>`;
+
 
 h+=`<div class="card"><div class="card-head">🌊 배경음<span>${bg.length}종 · 루프 소스</span></div>`;
 let ci=null;
